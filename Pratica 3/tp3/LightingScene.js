@@ -29,7 +29,10 @@ class LightingScene extends CGFscene
 
 		this.axis = new CGFaxis(this);
 
-		// Scene elements
+        // Scene elements
+        this.prism = new MyPrism(this, 8, 20);
+        this.cylinder = new MyCylinder(this, 8, 20);
+        this.lamp = new MyLamp(this, 16, 16);
 		this.chair = new MyChair(this);
 		this.table = new MyTable(this);
 		this.wall = new Plane(this);
@@ -79,8 +82,9 @@ class LightingScene extends CGFscene
 
 	initLights() 
 	{
-		this.setGlobalAmbientLight(0,0,0, 1.0);
-		
+		//Turn this line on only when you need to verify meshes in dark areas.
+		//this.setGlobalAmbientLight(0.3,0.3,0.3, 1.0);
+		this.setGlobalAmbientLight(0.3,0.3,0.3, 1.0);
 		// Positions for four lights
 		this.lights[0].setPosition(4, 6, 1, 1);
 		this.lights[0].setVisible(true); // show marker on light position (different from enabled)
@@ -149,7 +153,27 @@ class LightingScene extends CGFscene
 
 		// ---- END Background, camera and axis setup
 
-		// ---- BEGIN Scene drawing section
+        // ---- BEGIN Scene drawing section
+        this.pushMatrix();
+        	this.translate(2, 2, 3);
+        	this.rotate(90 * degToRad, 1, 0, 0);
+        	this.scale(1, 1, 4);
+        	this.prism.display();
+        this.popMatrix();
+
+        this.pushMatrix();
+        	this.translate(2, 2, 1);
+        	this.rotate(90 * degToRad, 1, 0, 0);
+        	this.scale(1, 1, 4);
+        	this.cylinder.display();
+        this.popMatrix();
+
+        this.pushMatrix();
+        	this.translate(7.5, 8, 7.5);
+        	this.rotate(90 * degToRad, 1, 0, 0);
+        	this.scale(2, 2, 2);
+        	this.lamp.display();
+        this.popMatrix();
 /*
 		// Floor
 		this.materialWood.apply();
