@@ -36,15 +36,15 @@ class Plane extends CGFobject{
 		// Generate vertices and normals 
 		this.vertices = [];
 		this.normals = [];
-		
-		// Uncomment below to init texCoords
-		//this.texCoords = [];
+		this.texCoords = [];
 
-		var yCoord = 0.5;
+        var yCoord = 0.5;
+        var tCoord = 0.0;
 
 		for (var j = 0; j <= this.nrDivs; j++) 
 		{
-			var xCoord = -0.5;
+            var xCoord = -0.5;
+            var sCoord = 0.0;
 			for (var i = 0; i <= this.nrDivs; i++) 
 			{
 				this.vertices.push(xCoord, yCoord, 0);
@@ -54,12 +54,13 @@ class Plane extends CGFobject{
 				
 				this.normals.push(0,0,1);
 
-				// texCoords should be computed here; uncomment and fill the blanks
-				// this.texCoords.push(..., ...);
+				this.texCoords.push(sCoord, tCoord);
 
-				xCoord += this.patchLength;
+                xCoord += this.patchLength;
+                sCoord += this.patchLength;
 			}
-			yCoord -= this.patchLength;
+            yCoord -= this.patchLength;
+            tCoord += this.patchLength;
 		}
 		
 		// Generating indices

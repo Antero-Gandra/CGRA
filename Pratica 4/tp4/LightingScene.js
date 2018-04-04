@@ -36,8 +36,8 @@ class LightingScene extends CGFscene
         this.lamp = new MyLamp(this, 16, 16);
 		this.chair = new MyChair(this);
 		this.table = new MyTable(this);
-		this.wall = new Plane(this);
-		this.floor = new MyQuad(this);
+		this.wall = new MyQuad(this, -1, 2, -0.5, 1.5);
+		this.floor = new MyQuad(this, 0, 10, 0, 12);
 		
 		this.boardA = new Plane(this, BOARD_A_DIVISIONS);
 		this.boardB = new Plane(this, BOARD_B_DIVISIONS);
@@ -81,7 +81,35 @@ class LightingScene extends CGFscene
 		this.tableAppearance.setSpecular(0.1, 0.1, 0.1, 1);
 		this.tableAppearance.setShininess(10);
 		this.tableAppearance.loadTexture("../resources/images/table.png");
-		this.tableAppearance.setTextureWrap("CLAMP_TO_EDGE","CLAMP_TO_EDGE");
+		this.tableAppearance.setTextureWrap("REPEAT","REPEAT");
+
+		this.floorAppearance = new CGFappearance(this);
+		this.floorAppearance.setAmbient(0.7, 0.7, 0.7, 1);
+		this.floorAppearance.setSpecular(0.1, 0.1, 0.1, 1);
+		this.floorAppearance.setShininess(10);
+		this.floorAppearance.loadTexture("../resources/images/floor.png");
+		this.floorAppearance.setTextureWrap("REPEAT","REPEAT");
+
+		this.windowAppearance = new CGFappearance(this);
+		this.windowAppearance.setAmbient(0.7, 0.7, 0.7, 1);
+		this.windowAppearance.setSpecular(0.1, 0.1, 0.1, 1);
+		this.windowAppearance.setShininess(10);
+		this.windowAppearance.loadTexture("../resources/images/window.png");
+		this.windowAppearance.setTextureWrap("CLAMP_TO_EDGE","CLAMP_TO_EDGE");
+
+		this.slidesAppearance = new CGFappearance(this);
+		this.slidesAppearance.setAmbient(0.7, 0.7, 0.7, 1);
+		this.slidesAppearance.setSpecular(0.1, 0.1, 0.1, 1);
+		this.slidesAppearance.setShininess(10);
+		this.slidesAppearance.loadTexture("../resources/images/slides.png");
+		this.slidesAppearance.setTextureWrap("CLAMP_TO_EDGE","CLAMP_TO_EDGE");
+
+		this.boardAppearance = new CGFappearance(this);
+		this.boardAppearance.setAmbient(0.7, 0.7, 0.7, 1);
+		this.boardAppearance.setSpecular(0.1, 0.1, 0.1, 1);
+		this.boardAppearance.setShininess(10);
+		this.boardAppearance.loadTexture("../resources/images/board.png");
+		this.boardAppearance.setTextureWrap("CLAMP_TO_EDGE","CLAMP_TO_EDGE");
 	};
 
 	initCameras() 
@@ -103,8 +131,12 @@ class LightingScene extends CGFscene
 
 		this.lights[2].setPosition(10.5, 6.0, 5.0, 1.0);
 		this.lights[2].setVisible(true); // show marker on light position (different from enabled)
+
 		this.lights[3].setPosition(4, 6.0, 5.0, 1.0);
 		this.lights[3].setVisible(true); // show marker on light position (different from enabled)
+
+		this.lights[4].setPosition(0.1, 7, 7, 1.0);
+		this.lights[4].setVisible(true); // show marker on light position (different from enabled)
 
 		this.lights[0].setAmbient(0, 0, 0, 1);
 		this.lights[0].setDiffuse(1.0, 1.0, 1.0, 1.0);
@@ -128,6 +160,14 @@ class LightingScene extends CGFscene
 		this.lights[3].setQuadraticAttenuation(0.2);
 		this.lights[3].setConstantAttenuation(0);
 		this.lights[3].enable();
+
+		this.lights[4].setAmbient(0, 0, 0, 1);
+		this.lights[4].setDiffuse(1.0, 1.0, 1.0, 1.0);
+		this.lights[4].setSpecular(1.0, 1.0, 1.0, 1.0);
+		this.lights[4].setQuadraticAttenuation(0);
+		this.lights[4].setLinearAttenuation(0.2);
+		this.lights[4].setConstantAttenuation(0);
+		this.lights[4].enable();
 	};
 
 	updateLights() 
@@ -185,8 +225,8 @@ class LightingScene extends CGFscene
         this.popMatrix();
 
 		// Floor
-		this.materialWood.apply();
-
+		
+		this.floorAppearance.apply();
 		this.pushMatrix();
 			this.translate(7.5, 0, 7.5);
 			this.rotate(-90 * degToRad, 1, 0, 0);
@@ -195,8 +235,7 @@ class LightingScene extends CGFscene
 		this.popMatrix();
 
 		// Left Wall
-		this.materialWalls.apply();
-		
+		this.windowAppearance.apply();
 		this.pushMatrix();
 			this.translate(0, 4, 7.5);
 			this.rotate(90 * degToRad, 0, 1, 0);
@@ -205,6 +244,7 @@ class LightingScene extends CGFscene
 		this.popMatrix();
 
 		// Plane Wall
+		this.materialWalls.apply();
 		this.pushMatrix();
 			this.translate(7.5, 4, 0);
 			this.scale(15, 8, 0.2);
@@ -240,6 +280,7 @@ class LightingScene extends CGFscene
 		this.popMatrix();
 
 		// Board A
+		this.slidesAppearance.apply();
 		this.pushMatrix();
 			this.translate(4, 4.5, 0.2);
 			this.scale(BOARD_WIDTH, BOARD_HEIGHT, 1);
@@ -249,6 +290,7 @@ class LightingScene extends CGFscene
 		this.popMatrix();
 
 		// Board B
+		this.boardAppearance.apply();
 		this.pushMatrix();
 			this.translate(10.5, 4.5, 0.2);
 			this.scale(BOARD_WIDTH, BOARD_HEIGHT, 1);

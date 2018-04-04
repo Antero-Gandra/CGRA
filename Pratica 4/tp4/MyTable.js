@@ -7,7 +7,7 @@
 class MyTable extends CGFobject {
     constructor(scene) {
         super(scene);
-        this.cube = new MyUnitCubeQuad(this.scene, 0, 1, 0, 1);
+        this.cube = new MyUnitCubeQuad(this.scene);
     };
 
     display() {
