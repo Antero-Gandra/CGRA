@@ -10,11 +10,6 @@ class MyQuad extends CGFobject
 	{
 		super(scene);
 		this.initBuffers(minS, maxS, minT, maxT);
-		//DEBUG
-        console.log(maxS);
-        console.log(minS);
-        console.log(maxT);
-        console.log(minT);
 	};
 
 	initBuffers(minS = 0, maxS = 1, minT = 0, maxT = 1) 

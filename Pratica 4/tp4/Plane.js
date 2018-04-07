@@ -2,7 +2,7 @@
 /** Represents a plane with nrDivs divisions along both axis, with center at (0,0) */
 class Plane extends CGFobject{
 
-	constructor(scene, nrDivs) 
+	constructor(scene, nrDivs, boardWidth = 1.0, boardHeight = 1.0, textureWidth = 1.0, textureHeight = 1.0) 
 	{
 		super(scene);
 
@@ -11,6 +11,9 @@ class Plane extends CGFobject{
 
 		this.nrDivs = nrDivs;
 		this.patchLength = 1.0 / nrDivs;
+
+		this.boardRatio = boardWidth / boardHeight;
+		this.textureRatio = textureWidth / textureHeight;
 
 		this.initBuffers();
 	};
@@ -37,14 +40,36 @@ class Plane extends CGFobject{
 		this.vertices = [];
 		this.normals = [];
 		this.texCoords = [];
+		
+		var tCoord;
+		var sCoord;
+		var patchT;
+		var patchS;
+
+		if (this.textureRatio < this.boardRatio) {
+            tCoord = 0.0;
+            patchT = this.patchLength;
+		}
+		else {
+			tCoord = -((this.textureRatio / this.boardRatio) - 1) / 2;
+            patchT = (this.textureRatio / this.boardRatio) / this.nrDivs;
+		}
 
         var yCoord = 0.5;
-        var tCoord = 0.0;
 
 		for (var j = 0; j <= this.nrDivs; j++) 
 		{
+			if (this.textureRatio < this.boardRatio) {
+                sCoord = - ((this.boardRatio / this.textureRatio) - 1) / 2;
+                patchS = (this.boardRatio / this.textureRatio) / this.nrDivs;
+			}
+			else {
+                sCoord = 0.0;
+                patchS = this.patchLength;
+			}
+			
+
             var xCoord = -0.5;
-            var sCoord = 0.0;
 			for (var i = 0; i <= this.nrDivs; i++) 
 			{
 				this.vertices.push(xCoord, yCoord, 0);
@@ -57,10 +82,10 @@ class Plane extends CGFobject{
 				this.texCoords.push(sCoord, tCoord);
 
                 xCoord += this.patchLength;
-                sCoord += this.patchLength;
+                sCoord += patchS;
 			}
             yCoord -= this.patchLength;
-            tCoord += this.patchLength;
+            tCoord += patchT;
 		}
 		
 		// Generating indices
