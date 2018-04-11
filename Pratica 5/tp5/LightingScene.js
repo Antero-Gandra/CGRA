@@ -126,6 +126,8 @@ class LightingScene extends CGFscene
 		this.columnAppearance.setShininess(10);
 		this.columnAppearance.loadTexture("../resources/images/slides.png");
 		this.columnAppearance.setTextureWrap("CLAMP_TO_EDGE","CLAMP_TO_EDGE");
+
+		this.setUpdatePeriod(100);
 	};
 
 	initCameras() 
@@ -192,6 +194,11 @@ class LightingScene extends CGFscene
 			this.lights[i].update();
 	}
 
+	update(currTime) //recebe tempo do sistema em milisegundos
+	{
+
+
+	}
 
 	display() 
 	{
