@@ -10,6 +10,7 @@ class MyClock extends CGFobject {
         this.slices = slices;
         this.stacks = stacks;
         this.initBuffers();
+        this.clockhand = new MyClockHand();
     };
 
     initBuffers() {
