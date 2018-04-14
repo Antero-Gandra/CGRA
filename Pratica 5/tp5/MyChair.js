@@ -15,7 +15,7 @@ class MyChair extends CGFobject {
         
         //Encosto
         this.scene.pushMatrix();
-        this.scene.materialWood.apply();
+        this.scene.chairAppearance.apply();
         this.scene.translate(0, 3.75, 0.9);
         this.scene.rotate(Math.PI/2, 1, 0, 0);
         this.scene.scale(1.95, 0.15, 1.25);
@@ -57,7 +57,7 @@ class MyChair extends CGFobject {
 
         //Assento
         this.scene.pushMatrix();
-        this.scene.materialWood.apply();
+        this.scene.chairAppearance.apply();
         this.scene.translate(0, 2.075, 0);
         this.scene.scale(1.95, 0.15, 2.1);
         this.cube.display();

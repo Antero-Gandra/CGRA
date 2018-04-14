@@ -22,6 +22,8 @@ class MyPrism extends CGFobject
 			
         this.normals = [];
 
+        this.texCoords = [];
+
 		var ang= 360/this.slices;
 		var rad= ang*Math.PI /180;
 
@@ -37,17 +39,27 @@ class MyPrism extends CGFobject
             var yInf = 0.5 * Math.sin(side * rad);
             var ySup = 0.5 * Math.sin((side + 1) * rad);
 
+			var sInf = side / this.slices;
+			var sSup = (side+1) / this.slices;
+			var t = 0;
+
             this.vertices.push(xInf, yInf, -0.5);
             this.vertices.push(xSup, ySup, -0.5);
             this.normals.push(xNorm, yNorm, 0);
             this.normals.push(xNorm, yNorm, 0);
+            this.texCoords.push(sInf, t);
+            this.texCoords.push(sSup, t);
             for (var i = 1; i <= this.stacks; i++) {
+				t = i / this.stacks;
+
                 this.vertices.push(xInf, yInf, i * deltaZ - 0.5);
                 this.vertices.push(xSup, ySup, i * deltaZ - 0.5);
                 this.normals.push(xNorm, yNorm, 0);
                 this.normals.push(xNorm, yNorm, 0);
                 this.indices.push(side * (this.stacks * 2 + 2) + 2 * i - 2, side * (this.stacks * 2 + 2) + 2 * i - 1, side * (this.stacks * 2 + 2) + 2 * i);
                 this.indices.push(side * (this.stacks * 2 + 2) + 2 * i, side * (this.stacks * 2 + 2) + 2 * i - 1, side * (this.stacks * 2 + 2) + 2 * i + 1);
+                this.texCoords.push(sInf, t);
+                this.texCoords.push(sSup, t);
             }
         }
 
@@ -55,12 +67,15 @@ class MyPrism extends CGFobject
         var sideVerts = this.slices * (this.stacks * 2 + 2);
         this.vertices.push(0.0, 0.0, 0.5);
         this.normals.push(0, 0, 1);
+        this.texCoords.push(0.5, 0.5);
         this.vertices.push(0.5, 0.0, 0.5);
         this.normals.push(0, 0, 1);
+        this.texCoords.push(1, 0.5);
         var i = 1;
         for (i = 1; i < this.slices; i++) {
             this.vertices.push(0.5 * Math.cos(i * rad), 0.5 * Math.sin(i * rad), 0.5);
             this.normals.push(0, 0, 1);
+            this.texCoords.push(0.5 + 0.5 * Math.cos(i * rad), 0.5 + 0.5 * Math.sin(i * rad));
             this.indices.push(sideVerts, sideVerts + i, sideVerts + i + 1);
         }
         this.indices.push(sideVerts, sideVerts + i, sideVerts + 1);
@@ -70,12 +85,15 @@ class MyPrism extends CGFobject
         sideVerts += this.slices + 1;
         this.vertices.push(0.0, 0.0, -0.5);
         this.normals.push(0, 0, -1);
+        this.texCoords.push(0.5, 0.5);
         this.vertices.push(0.5, 0.0, -0.5);
         this.normals.push(0, 0, -1);
+        this.texCoords.push(1, 0.5);
         var i = 1;
         for (i = 1; i < this.slices; i++) {
             this.vertices.push(0.5 * Math.cos(i * rad), 0.5 * Math.sin(i * rad), -0.5);
             this.normals.push(0, 0, -1);
+            this.texCoords.push(0.5 + 0.5 * Math.cos(i * rad), 0.5 + 0.5 * Math.sin(i * rad));
             this.indices.push(sideVerts + 1 + i, sideVerts + i, sideVerts);
         }
         this.indices.push(sideVerts + 1, sideVerts + i, sideVerts);

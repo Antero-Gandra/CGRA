@@ -44,7 +44,7 @@ class LightingScene extends CGFscene
 		this.table = new MyTable(this);
 		this.wall = new MyQuad(this, -1, 2, -0.5, 1.5);
         this.floor = new MyQuad(this, 0, 10, 0, 12);
-        this.clock = new MyClock(this, 12, 1);
+        this.clock = new MyClock(this);
 		
 		this.boardA = new Plane(this, BOARD_A_DIVISIONS, BOARD_WIDTH, BOARD_HEIGHT, SLIDES_WIDTH, SLIDES_HEIGHT);
 		this.boardB = new Plane(this, BOARD_B_DIVISIONS, BOARD_WIDTH, BOARD_HEIGHT, BOARD_DRAW_WIDHT, BOARD_DRAW_HEIGHT);
@@ -79,10 +79,12 @@ class LightingScene extends CGFscene
 		this.materialMetal.setTextureWrap("REPEAT","REPEAT");
 
 		this.materialWalls = new CGFappearance(this);
-		this.materialWalls.setAmbient(0.2,0.4,0.8,1);
-		this.materialWalls.setDiffuse(0.2, 0.4, 0.8, 1);
-		this.materialWalls.setSpecular(0.05, 0.1, 0.2, 1);
+		this.materialWalls.setAmbient(0.7,0.7,0.7,1);
+		this.materialWalls.setDiffuse(0.7, 0.7, 0.7, 1);
+		this.materialWalls.setSpecular(0.1, 0.1, 0.1, 1);
 		this.materialWalls.setShininess(10);
+		this.materialWalls.loadTexture("../resources/images/BlueWall.jpg");
+		this.materialWalls.setTextureWrap("REPEAT","REPEAT");
 
 		this.tableAppearance = new CGFappearance(this);
 		this.tableAppearance.setAmbient(0.7,0.7,0.7,1);
@@ -92,8 +94,17 @@ class LightingScene extends CGFscene
 		this.tableAppearance.loadTexture("../resources/images/table.png");
 		this.tableAppearance.setTextureWrap("REPEAT","REPEAT");
 
+		this.chairAppearance = new CGFappearance(this);
+		this.chairAppearance.setAmbient(0.7,0.7,0.7,1);
+		this.chairAppearance.setDiffuse(0.7, 0.7, 0.7, 1);
+		this.chairAppearance.setSpecular(0.1, 0.1, 0.1, 1);
+		this.chairAppearance.setShininess(10);
+		this.chairAppearance.loadTexture("../resources/images/wood2.jpg");
+		this.chairAppearance.setTextureWrap("REPEAT","REPEAT");
+
 		this.floorAppearance = new CGFappearance(this);
 		this.floorAppearance.setAmbient(0.7, 0.7, 0.7, 1);
+		this.floorAppearance.setDiffuse(0.7, 0.7, 0.7, 1);
 		this.floorAppearance.setSpecular(0.1, 0.1, 0.1, 1);
 		this.floorAppearance.setShininess(10);
 		this.floorAppearance.loadTexture("../resources/images/floor.png");
@@ -101,6 +112,7 @@ class LightingScene extends CGFscene
 
 		this.windowAppearance = new CGFappearance(this);
 		this.windowAppearance.setAmbient(0.7, 0.7, 0.7, 1);
+		this.windowAppearance.setDiffuse(0.7, 0.7, 0.7, 1);
 		this.windowAppearance.setSpecular(0.1, 0.1, 0.1, 1);
 		this.windowAppearance.setShininess(10);
 		this.windowAppearance.loadTexture("../resources/images/window.png");
@@ -108,6 +120,7 @@ class LightingScene extends CGFscene
 
 		this.slidesAppearance = new CGFappearance(this);
 		this.slidesAppearance.setAmbient(0.7, 0.7, 0.7, 1);
+		this.slidesAppearance.setDiffuse(0.7, 0.7, 0.7, 1);
 		this.slidesAppearance.setSpecular(0.1, 0.1, 0.1, 1);
 		this.slidesAppearance.setShininess(10);
 		this.slidesAppearance.loadTexture("../resources/images/slides.png");
@@ -115,6 +128,7 @@ class LightingScene extends CGFscene
 
 		this.boardAppearance = new CGFappearance(this);
 		this.boardAppearance.setAmbient(0.3, 0.3, 0.3, 1);
+		this.boardAppearance.setDiffuse(0.3, 0.3, 0.3, 1);
 		this.boardAppearance.setSpecular(0.5, 0.5, 0.5, 1);
 		this.boardAppearance.setShininess(120);
 		this.boardAppearance.loadTexture("../resources/images/board.png");
@@ -122,12 +136,35 @@ class LightingScene extends CGFscene
 
 		this.columnAppearance = new CGFappearance(this);
 		this.columnAppearance.setAmbient(0.8, 0.8, 0.8, 1);
+		this.columnAppearance.setDiffuse(0.8, 0.8, 0.8, 1);
 		this.columnAppearance.setSpecular(0.1, 0.1, 0.1, 1);
 		this.columnAppearance.setShininess(10);
-		this.columnAppearance.loadTexture("../resources/images/slides.png");
+		this.columnAppearance.loadTexture("../resources/images/ColumnTexture.jpg");
 		this.columnAppearance.setTextureWrap("CLAMP_TO_EDGE","CLAMP_TO_EDGE");
 
-		this.setUpdatePeriod(100);
+		this.concreteAppearance = new CGFappearance(this);
+		this.concreteAppearance.setAmbient(0.8, 0.8, 0.8, 1);
+		this.concreteAppearance.setDiffuse(0.8, 0.8, 0.8, 1);
+		this.concreteAppearance.setSpecular(0.1, 0.1, 0.1, 1);
+		this.concreteAppearance.setShininess(10);
+		this.concreteAppearance.loadTexture("../resources/images/moldyConcrete.png");
+        this.concreteAppearance.setTextureWrap("CLAMP_TO_EDGE", "CLAMP_TO_EDGE");
+
+        this.clockAppearance = new CGFappearance(this);
+		this.clockAppearance.setAmbient(0.8, 0.8, 0.8, 1);
+		this.clockAppearance.setDiffuse(0.8, 0.8, 0.8, 1);
+		this.clockAppearance.setSpecular(0.1, 0.1, 0.1, 1);
+		this.clockAppearance.setShininess(10);
+		this.clockAppearance.loadTexture("../resources/images/clock.png");
+        this.clockAppearance.setTextureWrap("CLAMP_TO_EDGE", "CLAMP_TO_EDGE");
+
+        this.clockHandAppearance = new CGFappearance(this);
+		this.clockHandAppearance.setAmbient(0.1, 0.1, 0.1, 1);
+		this.clockHandAppearance.setDiffuse(0.1, 0.1, 0.1, 1);
+		this.clockHandAppearance.setSpecular(0.005, 0.005, 0.005, 1);
+		this.clockHandAppearance.setShininess(10);
+
+        this.setUpdatePeriod(100);
 	};
 
 	initCameras() 
@@ -140,6 +177,7 @@ class LightingScene extends CGFscene
 		//Turn this line on only when you need to verify meshes in dark areas.
 		//this.setGlobalAmbientLight(0.3,0.3,0.3, 1.0);
 		this.setGlobalAmbientLight(0.0,0.0,0.0, 1.0);
+		//this.setGlobalAmbientLight(1.0,1.0,1.0, 1.0);
 		// Positions for four lights
 		this.lights[0].setPosition(4, 6, 1, 1);
 		this.lights[0].setVisible(true); // show marker on light position (different from enabled)
@@ -194,11 +232,10 @@ class LightingScene extends CGFscene
 			this.lights[i].update();
 	}
 
-	update(currTime) //recebe tempo do sistema em milisegundos
-	{
-
-
-	}
+    update(currTime) //recebe tempo do sistema em milisegundos 
+    {
+		this.clock.update(currTime);
+    }
 
 	display() 
 	{
@@ -239,6 +276,7 @@ class LightingScene extends CGFscene
         	this.translate(14.5, 4, 0.5);
         	this.rotate(90 * degToRad, 1, 0, 0);
         	this.scale(1, 1, 8);
+        	this.concreteAppearance.apply();
         	this.prism.display();
         this.popMatrix();
 
@@ -247,7 +285,7 @@ class LightingScene extends CGFscene
         	this.translate(0.5, 4, 0.5);
         	this.rotate(90 * degToRad, 1, 0, 0);
         	this.scale(1, 1, 8);
-        	//this.columnAppearance.apply();
+        	this.columnAppearance.apply();
         	this.cylinder.display();
         this.popMatrix();
 
@@ -324,7 +362,9 @@ class LightingScene extends CGFscene
 			this.translate(10.5, 4.5, 0.2);
 			this.scale(BOARD_WIDTH, BOARD_HEIGHT, 1);
 			this.boardB.display();
-		this.popMatrix();
+        this.popMatrix();
+
+        this.materialDefault.apply();
 		// ---- END Scene drawing section
 	};
 };

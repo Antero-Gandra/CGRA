@@ -5,102 +5,71 @@
  */
 
 class MyClock extends CGFobject {
-    constructor(scene, slices, stacks) {
+    constructor(scene, slices = 12, stacks = 1) {
         super(scene);
-        this.slices = slices;
-        this.stacks = stacks;
-        this.initBuffers();
-        this.clockhand = new MyClockHand();
+        this.tube = new MyTube(scene, slices, stacks);
+        this.circle = new MyCircle(scene, slices, stacks);
+
+        this.hourAngle = 90;
+        this.minuteAngle = 180;
+        this.secondAngle = 270;
+
+        this.hourshand = new MyClockHand(scene, 0, this.hourAngle);
+        this.minuteshand = new MyClockHand(scene, 1, this.minuteAngle);
+        this.secondshand = new MyClockHand(scene, 2, this.secondAngle);
     };
 
-    initBuffers() {
-        this.vertices = [];
+    display() {
 
-        this.indices = [];
+        //Tube
+        this.scene.pushMatrix();
+            this.scene.materialDefault.apply();
+            this.tube.display();
+        this.scene.popMatrix();
 
-        this.normals = [];
+        //Tampo Z positivo
+        this.scene.pushMatrix();
+            this.scene.translate(0, 0, 0.5);
+            this.scene.clockAppearance.apply();
+            this.circle.display();
+        this.scene.popMatrix();
 
-        this.texCoords = [];
+        this.scene.clockHandAppearance.apply();
+        //Ponteiro horas
+        this.scene.pushMatrix();
+            this.scene.translate(0, 0, 0.51);
+            this.hourshand.display();
+        this.scene.popMatrix();
 
-        var ang = 360 / this.slices;
-        var rad = ang * Math.PI / 180;
+        //Ponteiro minutos
+        this.scene.pushMatrix();
+            this.scene.translate(0, 0, 0.51);
+            this.minuteshand.display();
+        this.scene.popMatrix();
 
-        //prisma com eixo z no centro; ponto inicial (0.5, 0, -0.5)
-        var deltaZ = 1 / this.stacks;
-        var deltaS = 1 / this.slices;
-        var deltaT = 1 / this.stacks;
+        //Ponteiro segundos
+        this.scene.pushMatrix();
+            this.scene.translate(0, 0, 0.51);
+            this.secondshand.display();
+        this.scene.popMatrix();
 
-        var x = 0.5;
-        var y = 0.0;
-        var z = -0.5;
+        this.scene.materialDefault.apply();
+    }
 
-        for (var slice = 0; slice < this.slices; slice++) {
-            x = 0.5 * Math.cos(rad * slice);
-            y = 0.5 * Math.sin(rad * slice);
-            this.vertices.push(x, y, z);
-            this.normals.push(x, y, 0);
-            this.texCoords.push(slice * deltaS, 1);
-        }
-        for (var stack = 1; stack <= this.stacks; stack++) {
-            z += deltaZ;
+    update(currTime) {
+        var seconds = currTime / 1000;
+        var sec = seconds % 60;
+        var minutes = seconds / 60;
+        var min = minutes % 60;
+        var hours = minutes / 24;
+        var hour = hours % 24;
 
-            x = 0.5;
-            y = 0;
-            this.vertices.push(x, y, z);
-            this.normals.push(x, y, 0);
-            this.indices.push((stack - 1) * this.slices, (stack - 1) * this.slices + 1, stack * this.slices);
-            this.texCoords.push(0, 1 - (stack * deltaT));
+        this.hourAngle = hour * 360 / 24;
+        this.minuteAngle = min * 360 / 60;
+        this.secondAngle = sec * 360 / 60;
 
-            for (var slice = 1; slice < this.slices; slice++) {
-                x = 0.5 * Math.cos(rad * slice);
-                y = 0.5 * Math.sin(rad * slice);
-                this.vertices.push(x, y, z);
-                this.normals.push(x, y, 0);
-                if (slice < this.slices - 1) this.indices.push(stack * this.slices + slice, (stack - 1) * this.slices + slice, (stack - 1) * this.slices + slice + 1);
-                else this.indices.push(stack * this.slices + slice, (stack - 1) * this.slices + slice, (stack - 1) * this.slices);
-                if (slice < this.slices - 1) this.indices.push(stack * this.slices + slice - 1, (stack - 1) * this.slices + slice, stack * this.slices + slice);
-                else {
-                    this.indices.push(stack * this.slices + slice, (stack - 1) * this.slices, stack * this.slices);
-                    this.indices.push(stack * this.slices + slice, stack * this.slices + slice - 1, (stack - 1) * this.slices + slice);
-                }
-                this.texCoords.push(slice * deltaS, 1 - (stack * deltaT));
-            }
-
-        }
-
-
-        //tampo z positivo
-        var sideVerts = this.slices * (this.stacks + 1);
-        this.vertices.push(0.0, 0.0, 0.5);
-        this.normals.push(0, 0, 1);
-        this.vertices.push(0.5, 0.0, 0.5);
-        this.normals.push(0, 0, 1);
-        var i = 1;
-        for (i = 1; i < this.slices; i++) {
-            this.vertices.push(0.5 * Math.cos(i * rad), 0.5 * Math.sin(i * rad), 0.5);
-            this.normals.push(0, 0, 1);
-            this.indices.push(sideVerts, sideVerts + i, sideVerts + i + 1);
-        }
-        this.indices.push(sideVerts, sideVerts + i, sideVerts + 1);
-        this.texCoords.push(slice * deltaS, 0);
-
-
-        //tampo z negativo
-        sideVerts += this.slices + 1;
-        this.vertices.push(0.0, 0.0, -0.5);
-        this.normals.push(0, 0, -1);
-        this.vertices.push(0.5, 0.0, -0.5);
-        this.normals.push(0, 0, -1);
-        var i = 1;
-        for (i = 1; i < this.slices; i++) {
-            this.vertices.push(0.5 * Math.cos(i * rad), 0.5 * Math.sin(i * rad), -0.5);
-            this.normals.push(0, 0, -1);
-            this.indices.push(sideVerts + 1 + i, sideVerts + i, sideVerts);
-        }
-        this.indices.push(sideVerts + 1, sideVerts + i, sideVerts);
-        this.texCoords.push(slice * deltaS, 1);
-
-        this.primitiveType = this.scene.gl.TRIANGLES;
-        this.initGLBuffers();
-    };
+        this.hourshand.setAngle(this.hourAngle);
+        this.minuteshand.setAngle(this.minuteAngle);
+        this.secondshand.setAngle(this.secondAngle);
+    }
 };
