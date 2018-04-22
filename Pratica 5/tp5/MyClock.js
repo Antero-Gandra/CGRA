@@ -62,9 +62,9 @@ class MyClock extends CGFobject {
         var minutes = seconds / 60;
         var min = minutes % 60;
         var hours = minutes / 24;
-        var hour = hours % 24;
+        var hour = hours % 24 - 2;
 
-        this.hourAngle = hour * 360 / 24;
+        this.hourAngle = hour * 360 / 12;
         this.minuteAngle = min * 360 / 60;
         this.secondAngle = sec * 360 / 60;
 

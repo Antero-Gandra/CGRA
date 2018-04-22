@@ -45,6 +45,7 @@ class LightingScene extends CGFscene
 		this.wall = new MyQuad(this, -1, 2, -0.5, 1.5);
         this.floor = new MyQuad(this, 0, 10, 0, 12);
         this.clock = new MyClock(this);
+        this.plane = new MyPaperPlane(this);
 		
 		this.boardA = new Plane(this, BOARD_A_DIVISIONS, BOARD_WIDTH, BOARD_HEIGHT, SLIDES_WIDTH, SLIDES_HEIGHT);
 		this.boardB = new Plane(this, BOARD_B_DIVISIONS, BOARD_WIDTH, BOARD_HEIGHT, BOARD_DRAW_WIDHT, BOARD_DRAW_HEIGHT);
@@ -163,6 +164,22 @@ class LightingScene extends CGFscene
 		this.clockHandAppearance.setDiffuse(0.1, 0.1, 0.1, 1);
 		this.clockHandAppearance.setSpecular(0.005, 0.005, 0.005, 1);
 		this.clockHandAppearance.setShininess(10);
+		
+		this.paperAppearance = new CGFappearance(this);
+		this.paperAppearance.setAmbient(0.8, 0.8, 0.8, 1);
+		this.paperAppearance.setDiffuse(0.8, 0.8, 0.8, 1);
+		this.paperAppearance.setSpecular(0.1, 0.1, 0.1, 1);
+		this.paperAppearance.setShininess(10);
+		this.paperAppearance.loadTexture("../resources/images/paper.jpg");
+        this.paperAppearance.setTextureWrap("CLAMP_TO_EDGE", "CLAMP_TO_EDGE");
+
+        this.glassAppearance = new CGFappearance(this);
+		this.glassAppearance.setAmbient(0.6, 0.6, 0.6, 1);
+		this.glassAppearance.setDiffuse(0.6, 0.6, 0.6, 1);
+		this.glassAppearance.setSpecular(0.4, 0.4, 0.4, 1);
+		this.glassAppearance.setShininess(100);
+		this.glassAppearance.loadTexture("../resources/images/glass.png");
+        this.glassAppearance.setTextureWrap("CLAMP_TO_EDGE", "CLAMP_TO_EDGE");
 
         this.setUpdatePeriod(100);
 	};
@@ -234,7 +251,8 @@ class LightingScene extends CGFscene
 
     update(currTime) //recebe tempo do sistema em milisegundos 
     {
-		this.clock.update(currTime);
+        this.clock.update(currTime);
+        this.plane.update(currTime);
     }
 
 	display() 
@@ -264,6 +282,14 @@ class LightingScene extends CGFscene
 
         // ---- BEGIN Scene drawing section
 
+        // Plane
+        this.pushMatrix();
+        	this.translate(12, 4, 8);
+        	this.rotate(-Math.PI/2, 0, 1, 0);
+        	this.paperAppearance.apply();
+        	this.plane.display();
+        this.popMatrix();
+
         // Clock
         this.pushMatrix();
             this.translate(7.25, 7.25, 0.075);
@@ -289,11 +315,13 @@ class LightingScene extends CGFscene
         	this.cylinder.display();
         this.popMatrix();
 
+		//Lamp
+        
         this.pushMatrix();
         	this.translate(7.5, 8, 7.5);
         	this.rotate(90 * degToRad, 1, 0, 0);
         	this.scale(2, 2, 2);
-        	this.materialDefault.apply();
+        	this.glassAppearance.apply();
         	this.lamp.display();
         this.popMatrix();
 

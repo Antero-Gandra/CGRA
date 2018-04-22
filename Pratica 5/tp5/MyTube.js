@@ -63,8 +63,6 @@ class MyTube extends CGFobject {
                     this.indices.push(stack * (this.slices + 1) + slice, stack * (this.slices + 1) + slice - 1, (stack - 1) * (this.slices + 1) + slice);
                 }
 
-                //if (slice + 1 != this.slices) this.texCoords.push(slice*deltaS, stack*deltaT);
-                //else this.texCoords.push(0, stack*deltaT);
                 this.texCoords.push(slice * deltaS, stack * deltaT);
             }
         }
