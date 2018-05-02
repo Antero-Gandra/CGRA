@@ -7,18 +7,15 @@ serialInclude([
 	'LightingScene.js',
 	'MyQuad.js',
 	'MyUnitCubeQuad.js',
-    'MyTable.js',
-    'MyChair.js',
 	'Plane.js',
 	'MyTube.js',
 	'MyCircle.js', 
     'MyPrism.js',
     'MyCylinder.js',
-    'MyLamp.js',
-    'MyClock.js',
-    'MyClockHand.js',
+    'MyHalfSphere.js',
     'MyRectTriangle.js',
-    'MyPaperPlane.js',
+    'MyTrapezoid.js',
+    'MyJeep.js',
 
 	main=function() {
 		var app = new CGFapplication(document.body);

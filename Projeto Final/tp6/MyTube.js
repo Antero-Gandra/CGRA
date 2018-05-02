@@ -29,42 +29,42 @@ class MyTube extends CGFobject {
         var deltaS = 1 / this.slices;
         var deltaT = 1 / this.stacks;
 
-        var x = 0.5;
-        var y = 0.0;
-        var z = -0.5;
+        var x, y, z;
 
-        for (var slice = 0; slice <= this.slices; slice++) {
-            x = 0.5 * Math.cos(rad * slice);
-            y = 0.5 * Math.sin(rad * slice);
-            this.vertices.push(x, y, z);
-            this.normals.push(x, y, 0);
-            this.texCoords.push(slice * deltaS, 0);
-        }
-        for (var stack = 1; stack <= this.stacks; stack++) {
-            z += deltaZ;
+        var s = 0, t = 0;
+        
 
-            x = 0.5;
-            y = 0;
-            this.vertices.push(x, y, z);
-            this.normals.push(x, y, 0);
-            this.indices.push((stack - 1) * (this.slices + 1), (stack - 1) * (this.slices + 1) + 1, stack * (this.slices + 1));
-            this.texCoords.push(0, stack * deltaT);
+        for (var stack = 0; stack <= this.stacks; stack++) {
 
-            for (var slice = 1; slice <= this.slices; slice++) {
+            z = stack * deltaZ - 0.5;
+
+            s = 0;
+
+            for (var slice = 0; slice <= this.slices; slice++) {
+
                 x = 0.5 * Math.cos(rad * slice);
                 y = 0.5 * Math.sin(rad * slice);
+
                 this.vertices.push(x, y, z);
                 this.normals.push(x, y, 0);
-                if (slice < (this.slices + 1) - 1) this.indices.push(stack * (this.slices + 1) + slice, (stack - 1) * (this.slices + 1) + slice, (stack - 1) * (this.slices + 1) + slice + 1);
-                else this.indices.push(stack * (this.slices + 1) + slice, (stack - 1) * (this.slices + 1) + slice, (stack - 1) * (this.slices + 1));
-                if (slice < (this.slices + 1) - 1) this.indices.push(stack * (this.slices + 1) + slice - 1, (stack - 1) * (this.slices + 1) + slice, stack * (this.slices + 1) + slice);
-                else {
-                    this.indices.push(stack * (this.slices + 1) + slice, (stack - 1) * (this.slices + 1), stack * (this.slices + 1));
-                    this.indices.push(stack * (this.slices + 1) + slice, stack * (this.slices + 1) + slice - 1, (stack - 1) * (this.slices + 1) + slice);
+                this.texCoords.push(s, t);
+
+                // na ultima iteracao nao se acrescentam indices
+                if (stack != this.stacks) {
+
+                    var thisStack = stack * (this.slices + 1) + slice;
+                    var nextStack = (stack + 1) * (this.slices + 1) + slice;
+
+                    if (slice != this.slices) {
+                        this.indices.push(thisStack + 1, nextStack, thisStack);
+                        this.indices.push(nextStack + 1, nextStack, thisStack + 1);
+                    }
                 }
 
-                this.texCoords.push(slice * deltaS, stack * deltaT);
+                s += deltaS;
             }
+
+            t += deltaT;
         }
 
         this.primitiveType = this.scene.gl.TRIANGLES;
