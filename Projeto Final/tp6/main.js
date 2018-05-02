@@ -14,14 +14,11 @@ serialInclude([
     'MyCylinder.js',
     'MyHalfSphere.js',
     'MyRectTriangle.js',
-<<<<<<< HEAD
 	'MyPaperPlane.js',
 	'MyTerrain.js',
 	'MyInterface.js',
-=======
     'MyTrapezoid.js',
     'MyJeep.js',
->>>>>>> c689c244121001ec42bf2ccb95a31101ec01604b
 
 	main=function() {
 		var app = new CGFapplication(document.body);
