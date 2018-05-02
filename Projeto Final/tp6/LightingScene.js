@@ -241,6 +241,11 @@ class LightingScene extends CGFscene
 		this.lights[4].setLinearAttenuation(0.2);
 		this.lights[4].setConstantAttenuation(0);
 		this.lights[4].enable();
+
+		this.option1=true; 
+		this.option2=false;
+		this.speed=3;
+
 	};
 
 	updateLights() 
@@ -395,4 +400,6 @@ class LightingScene extends CGFscene
         this.materialDefault.apply();
 		// ---- END Scene drawing section
 	};
+doSomething()
+{ console.log("Doing something..."); };
 };
