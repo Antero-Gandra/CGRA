@@ -28,7 +28,7 @@ class LightingScene extends CGFscene
 		this.initLights();
 		this.enableTextures(true);
 
-		this.gl.clearColor(0.0, 0.0, 0.0, 1.0);
+		this.gl.clearColor(0.5, 0.8, 0.9, 1.0);
 		this.gl.clearDepth(100.0);
 		this.gl.enable(this.gl.DEPTH_TEST);
 		this.gl.enable(this.gl.CULL_FACE);
@@ -36,8 +36,25 @@ class LightingScene extends CGFscene
 
 		this.axis = new CGFaxis(this);
 
+        //Terrain
+        this.altimetry = [
+            [2.0, 3.0, 2.0, 4.0, 2.5, 2.4, 2.3, 1.3, 0.0],
+            [2.0, 3.0, 2.0, 4.0, 7.5, 6.4, 4.3, 1.3, 0.0],
+            [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+            [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+            [0.0, 0.0, 2.0, 4.0, 2.5, 2.4, 0.0, 0.0, 0.0],
+            [0.0, 0.0, 2.0, 4.0, 3.5, 2.4, 0.0, 0.0, 0.0],
+            [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+            [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+            [2.0, 3.0, 2.0, 1.0, 2.5, 2.4, 2.3, 1.3, 0.0]
+        ];
+
+        //this.altimetry = [[0.0, 1.0],[2.0, 3.0]];
+        console.log(this.altimetry[0][7]);
+
         // Scene elements
         this.jeep = new MyJeep(this);
+        this.terrain = new MyTerrain(this, 8, this.altimetry);
         
 
 		// Materials
@@ -73,52 +90,18 @@ class LightingScene extends CGFscene
 		this.setGlobalAmbientLight(0.3,0.3,0.3, 1.0);
 		//this.setGlobalAmbientLight(0.0,0.0,0.0, 1.0);
 		//this.setGlobalAmbientLight(1.0,1.0,1.0, 1.0);
-		// Positions for four lights
-		this.lights[0].setPosition(4, 6, 1, 1);
+		
+		// Positions for lights
+		this.lights[0].setPosition(1, 15, 1, 1);
 		this.lights[0].setVisible(true); // show marker on light position (different from enabled)
 		
-		this.lights[1].setPosition(10.5, 6.0, 1.0, 1.0);
-		this.lights[1].setVisible(true); // show marker on light position (different from enabled)
-
-		this.lights[2].setPosition(10.5, 6.0, 5.0, 1.0);
-		this.lights[2].setVisible(true); // show marker on light position (different from enabled)
-
-		this.lights[3].setPosition(4, 6.0, 5.0, 1.0);
-		this.lights[3].setVisible(true); // show marker on light position (different from enabled)
-
-		this.lights[4].setPosition(0.1, 7, 7, 1.0);
-		this.lights[4].setVisible(true); // show marker on light position (different from enabled)
-
 		this.lights[0].setAmbient(0, 0, 0, 1);
 		this.lights[0].setDiffuse(1.0, 1.0, 1.0, 1.0);
-		this.lights[0].setSpecular(1.0, 1.0, 0, 1.0);
+		this.lights[0].setSpecular(1.0, 1.0, 1.0, 1.0);
+		this.lights[0].setQuadraticAttenuation(0);
+		this.lights[0].setLinearAttenuation(0.05);
+		this.lights[0].setConstantAttenuation(0);
 		this.lights[0].enable();
-
-		this.lights[1].setAmbient(0, 0, 0, 1);
-		this.lights[1].setDiffuse(1.0, 1.0, 1.0, 1.0);
-		this.lights[1].enable();
-
-		this.lights[2].setAmbient(0, 0, 0, 1);
-		this.lights[2].setDiffuse(1.0, 1.0, 1.0, 1.0);
-		this.lights[2].setSpecular(1.0, 1.0, 0, 1.0);
-		this.lights[2].setLinearAttenuation(0.2);
-		this.lights[2].setConstantAttenuation(0);
-		this.lights[2].enable();
-
-		this.lights[3].setAmbient(0, 0, 0, 1);
-		this.lights[3].setDiffuse(1.0, 1.0, 1.0, 1.0);
-		this.lights[3].setSpecular(1.0, 1.0, 0, 1.0);
-		this.lights[3].setQuadraticAttenuation(0.2);
-		this.lights[3].setConstantAttenuation(0);
-		this.lights[3].enable();
-
-		this.lights[4].setAmbient(0, 0, 0, 1);
-		this.lights[4].setDiffuse(1.0, 1.0, 1.0, 1.0);
-		this.lights[4].setSpecular(1.0, 1.0, 1.0, 1.0);
-		this.lights[4].setQuadraticAttenuation(0);
-		this.lights[4].setLinearAttenuation(0.2);
-		this.lights[4].setConstantAttenuation(0);
-		this.lights[4].enable();
 
 		this.option1=true; 
 		this.option2=false;
@@ -168,27 +151,16 @@ class LightingScene extends CGFscene
 		this.pushMatrix();
 			this.jeep.display();
 		this.popMatrix();
-		
-		/*
-		//Lamp
-        
-        this.pushMatrix();
-        	this.scale(1, 1, 1);
-        	this.translate(1, 1, 0);
-            this.metalAppearance.apply();
-        	this.lamp.display();
-        this.popMatrix();
-        
-        //Cylinder (Test)
-        this.pushMatrix();
-        	this.scale(1, 1, 1);
-            this.translate(0, 0, -0.5);
-            this.metalAppearance.apply();
-        	this.cylinder.display();
-        this.popMatrix();
 
-        this.materialDefault.apply();
-        */
+		//Terrain
+		this.pushMatrix();
+			this.rotate(-Math.PI / 2, 1, 0, 0);
+			this.scale(50, 50, 20);
+			this.terrain.display();
+			console.log(this.terrain.vertices[2]);
+		this.popMatrix();
+		
+		
 		// ---- END Scene drawing section
 	};
 doSomething()
