@@ -14,7 +14,6 @@ serialInclude([
     'MyCylinder.js',
     'MyHalfSphere.js',
     'MyRectTriangle.js',
-	'MyPaperPlane.js',
 	'MyTerrain.js',
 	'MyInterface.js',
     'MyTrapezoid.js',
