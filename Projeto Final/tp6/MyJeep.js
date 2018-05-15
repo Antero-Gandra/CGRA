@@ -8,10 +8,16 @@ var SLICES = 32;
 var STACKS = 4;
 
 class MyJeep extends CGFobject {
-    constructor(scene) {
+    constructor(scene, textureMetal, textureGlass, textureWheelsTube, textureWheelsCircle) {
         super(scene);
+
+        this.texMetal = textureMetal;
+        this.texGlass = textureGlass;
+        this.texWheelsTube = textureWheelsTube;
+        this.texWheelsCirc = textureWheelsCircle;
+
         this.lamp = new MyHalfSphere(scene, SLICES, STACKS);
-        this.tire = new MyCylinder(scene, SLICES, STACKS);
+        this.tire = new MyTire(scene, SLICES, STACKS, this.texWheelsTube, this.texWheelsCirc);
         this.quad = new MyQuad(scene);
         this.cube = new MyUnitCubeQuad(scene);
         this.windowsTrap = new MyTrapezoid(scene, 0.5, -1, 0.5);
@@ -20,7 +26,7 @@ class MyJeep extends CGFobject {
     };
 
     display() {
-
+        
         //Tire FR
         this.scene.pushMatrix();
             this.scene.translate(-1, 0.5, 1.0);
@@ -51,6 +57,31 @@ class MyJeep extends CGFobject {
         this.scene.popMatrix();
 
 
+        this.texGlass.apply();
+        //windowsRside
+        this.scene.pushMatrix();
+            this.scene.translate(-1, 1.4, -0.5);
+            this.scene.rotate(-Math.PI * 0.5, 0, 1, 0);
+            this.scene.scale(1, 1, 1);
+            this.windowsTrap.display();
+        this.scene.popMatrix();
+        //windowsLside
+        this.scene.pushMatrix();
+            this.scene.translate(1, 1.4, -0.5);
+            this.scene.rotate(Math.PI * 0.5, 0, 1, 0);
+            this.scene.scale(-1, 1, 1);
+            this.windowsTrap.display();
+        this.scene.popMatrix();
+        //Windshield
+        this.scene.pushMatrix();
+            this.scene.translate(0, 1.4, 0.25);
+            this.scene.rotate(-Math.PI/4, 1, 0, 0);
+            this.scene.scale(2, 0.71, 1);
+            this.quad.display();
+        this.scene.popMatrix();
+
+
+        this.texMetal.apply();
         //engineRside
         this.scene.pushMatrix();
             this.scene.translate(-1, 0.8, 1.0);
@@ -81,22 +112,6 @@ class MyJeep extends CGFobject {
             this.sideTrap.display();
         this.scene.popMatrix();
 
-        //windowsRside
-        this.scene.pushMatrix();
-            this.scene.translate(-1, 1.4, -0.5);
-            this.scene.rotate(-Math.PI * 0.5, 0, 1, 0);
-            this.scene.scale(1, 1, 1);
-            this.windowsTrap.display();
-        this.scene.popMatrix();
-        //windowsLside
-        this.scene.pushMatrix();
-            this.scene.translate(1, 1.4, -0.5);
-            this.scene.rotate(Math.PI * 0.5, 0, 1, 0);
-            this.scene.scale(-1, 1, 1);
-            this.windowsTrap.display();
-        this.scene.popMatrix();
-
-
         //Front Bumper
         this.scene.pushMatrix();
             this.scene.translate(0, 0.8, 1.75);
@@ -109,13 +124,6 @@ class MyJeep extends CGFobject {
             this.scene.translate(0, 1.15, 1.075);
             this.scene.rotate(-Math.PI/2, 1, 0, 0);
             this.scene.scale(2, 1.15, 1);
-            this.quad.display();
-        this.scene.popMatrix();
-        //Windshield
-        this.scene.pushMatrix();
-            this.scene.translate(0, 1.4, 0.25);
-            this.scene.rotate(-Math.PI/4, 1, 0, 0);
-            this.scene.scale(2, 0.71, 1);
             this.quad.display();
         this.scene.popMatrix();
         //Roof

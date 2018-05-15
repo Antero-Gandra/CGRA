@@ -34,30 +34,9 @@ class LightingScene extends CGFscene
 		this.gl.enable(this.gl.CULL_FACE);
 		this.gl.depthFunc(this.gl.LEQUAL);
 
-		this.axis = new CGFaxis(this);
+        this.axis = new CGFaxis(this);
 
-        //Terrain
-        this.altimetry = [
-            [2.0, 3.0, 2.0, 4.0, 2.5, 2.4, 2.3, 1.3, 0.0],
-            [2.0, 3.0, 2.0, 4.0, 7.5, 6.4, 4.3, 1.3, 0.0],
-            [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-            [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-            [0.0, 0.0, 2.0, 4.0, 2.5, 2.4, 0.0, 0.0, 0.0],
-            [0.0, 0.0, 2.0, 4.0, 3.5, 2.4, 0.0, 0.0, 0.0],
-            [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-            [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-            [2.0, 3.0, 2.0, 1.0, 2.5, 2.4, 2.3, 1.3, 0.0]
-        ];
-
-        //this.altimetry = [[0.0, 1.0],[2.0, 3.0]];
-        console.log(this.altimetry[0][7]);
-
-        // Scene elements
-        this.jeep = new MyJeep(this);
-        this.terrain = new MyTerrain(this, 8, this.altimetry);
-        
-
-		// Materials
+        // Materials
         this.materialDefault = new CGFappearance(this);
 
         this.metalAppearance = new CGFappearance(this);
@@ -69,12 +48,70 @@ class LightingScene extends CGFscene
         this.metalAppearance.setTextureWrap("REPEAT", "REPEAT");
 
         this.glassAppearance = new CGFappearance(this);
-		this.glassAppearance.setAmbient(0.6, 0.6, 0.6, 1);
-		this.glassAppearance.setDiffuse(0.6, 0.6, 0.6, 1);
-		this.glassAppearance.setSpecular(0.4, 0.4, 0.4, 1);
-		this.glassAppearance.setShininess(100);
-		this.glassAppearance.loadTexture("../resources/images/glass.png");
+        this.glassAppearance.setAmbient(0.6, 0.6, 0.6, 1);
+        this.glassAppearance.setDiffuse(0.6, 0.6, 0.6, 1);
+        this.glassAppearance.setSpecular(0.4, 0.4, 0.4, 1);
+        this.glassAppearance.setShininess(100);
+        this.glassAppearance.loadTexture("../resources/images/glass.png");
         this.glassAppearance.setTextureWrap("CLAMP_TO_EDGE", "CLAMP_TO_EDGE");
+
+        this.grassAppearance = new CGFappearance(this);
+        this.grassAppearance.setAmbient(0.7, 0.7, 0.7, 1);
+        this.grassAppearance.setDiffuse(0.7, 0.7, 0.7, 1);
+        this.grassAppearance.setSpecular(0.3, 0.3, 0.3, 1);
+        this.grassAppearance.setShininess(50);
+        this.grassAppearance.loadTexture("../resources/images/GrassTop.png");
+        //this.grassAppearance.loadTexture("../resources/images/arrow_up_left.png");
+        this.grassAppearance.setTextureWrap("REPEAT", "REPEAT");
+
+        this.rubberAppearance = new CGFappearance(this);
+        this.rubberAppearance.setAmbient(0.2, 0.2, 0.2, 1);
+        this.rubberAppearance.setDiffuse(0.2, 0.2, 0.2, 1);
+        this.rubberAppearance.setSpecular(0.05, 0.05, 0.05, 1);
+        this.rubberAppearance.setShininess(10);
+        this.rubberAppearance.loadTexture("../resources/images/pneu1.jpg");
+        this.rubberAppearance.setTextureWrap("REPEAT", "REPEAT");
+
+        this.tireSideAppearance = new CGFappearance(this);
+        this.tireSideAppearance.setAmbient(0.3, 0.3, 0.3, 1);
+        this.tireSideAppearance.setDiffuse(0.3, 0.3, 0.3, 1);
+        this.tireSideAppearance.setSpecular(0.1, 0.1, 0.1, 1);
+        this.tireSideAppearance.setShininess(50);
+        this.tireSideAppearance.loadTexture("../resources/images/pneu2.jpg");
+        this.tireSideAppearance.setTextureWrap("REPEAT", "REPEAT");
+
+        //Terrain
+        ///*
+        this.altimetry = [
+            [2.0, 3.0, 2.0, 4.0, 2.5, 2.4, 2.3, 1.3, 0.0],
+            [2.0, 3.0, 2.0, 4.0, 7.5, 6.4, 4.3, 1.3, 0.0],
+            [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+            [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+            [0.0, 0.0, 2.0, 4.0, 2.5, 2.4, 0.0, 0.0, 0.0],
+            [0.0, 0.0, 2.0, 4.0, 3.5, 2.4, 0.0, 0.0, 0.0],
+            [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+            [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+            [2.0, 3.0, 2.0, 1.0, 2.5, 2.4, 2.3, 1.3, 0.0]
+        ];
+        //*/
+        
+		/*
+        this.altimetry = [
+            [0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0],
+            [0.0, 0.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0],
+            [0.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+            [1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+            [1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+            [1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+            [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+            [0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+            [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+        ];
+        */
+
+        // Scene elements
+        this.jeep = new MyJeep(this, this.metalAppearance, this.glassAppearance, this.rubberAppearance, this.tireSideAppearance);
+        this.terrain = new MyTerrain(this, 8, this.altimetry, this.grassAppearance, 20, 20);
 
         this.setUpdatePeriod(20);
 	};
@@ -87,9 +124,9 @@ class LightingScene extends CGFscene
 	initLights() 
 	{
 		//Turn this line on only when you need to verify meshes in dark areas.
-		this.setGlobalAmbientLight(0.3,0.3,0.3, 1.0);
+		//this.setGlobalAmbientLight(0.3,0.3,0.3, 1.0);
 		//this.setGlobalAmbientLight(0.0,0.0,0.0, 1.0);
-		//this.setGlobalAmbientLight(1.0,1.0,1.0, 1.0);
+		this.setGlobalAmbientLight(1.0,1.0,1.0, 1.0);
 		
 		// Positions for lights
 		this.lights[0].setPosition(1, 15, 1, 1);
@@ -149,17 +186,16 @@ class LightingScene extends CGFscene
 
 		//Jeep
 		this.pushMatrix();
+			this.translate(3, 0, 3);
 			this.jeep.display();
 		this.popMatrix();
 
 		//Terrain
 		this.pushMatrix();
 			this.rotate(-Math.PI / 2, 1, 0, 0);
-			this.scale(50, 50, 20);
+			this.scale(50, 50, 50);
 			this.terrain.display();
-			console.log(this.terrain.vertices[2]);
 		this.popMatrix();
-		
 		
 		// ---- END Scene drawing section
 	};
