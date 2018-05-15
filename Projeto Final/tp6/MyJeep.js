@@ -23,21 +23,42 @@ class MyJeep extends CGFobject {
         this.windowsTrap = new MyTrapezoid(scene, 0.5, -1, 0.5);
         this.sideTrap = new MyTrapezoid(scene, 0.7, -1.7, 0, -1.5, 0);
         this.engineTrap = new MyTrapezoid(scene, 0.7, 0, 0.35, 0, 0.15);
+
+        this.lastTime = 0;
+
+        this.xCoord = 0;
+        this.zCoord = 0;
+        this.angle = 0;
+
+        this.velocity = 0;
+        this.angVelocity = 0;
+
+        this.wheelAngle = 0;    //Rotation in the z axis
+        this.wheelRotation = 0; //Totation in the y axis
+        this.wheelAngVel = 0;   //z axis angular velocity
     };
 
     display() {
+        this.scene.pushMatrix();
+        this.scene.translate(this.xCoord, 0, this.zCoord);
+        this.scene.rotate(this.angle, 0, 1, 0);
         
+
         //Tire FR
         this.scene.pushMatrix();
             this.scene.translate(-1, 0.5, 1.0);
+            this.scene.rotate(this.wheelRotation, 0, 1, 0);
             this.scene.rotate(Math.PI * 0.5, 0, 1, 0);
+            this.scene.rotate(this.wheelAngle, 0, 0, 1);
             this.scene.scale(1, 1, 0.5);
             this.tire.display();
         this.scene.popMatrix();
         //Tire FL
         this.scene.pushMatrix();
             this.scene.translate(1, 0.5, 1.0);
+            this.scene.rotate(this.wheelRotation, 0, 1, 0);
             this.scene.rotate(Math.PI * 0.5, 0, 1, 0);
+            this.scene.rotate(this.wheelAngle, 0, 0, 1);
             this.scene.scale(1, 1, 0.5);
             this.tire.display();
         this.scene.popMatrix();
@@ -46,6 +67,7 @@ class MyJeep extends CGFobject {
             this.scene.translate(-1, 0.5, -1.5);
             this.scene.rotate(Math.PI * 0.5, 0, 1, 0);
             this.scene.scale(1, 1, 0.5);
+            this.scene.rotate(this.wheelAngle, 0, 0, 1);
             this.tire.display();
         this.scene.popMatrix();
         //Tire BL
@@ -53,6 +75,7 @@ class MyJeep extends CGFobject {
             this.scene.translate(1, 0.5, -1.5);
             this.scene.rotate(Math.PI * 0.5, 0, 1, 0);
             this.scene.scale(1, 1, 0.5);
+            this.scene.rotate(this.wheelAngle, 0, 0, 1);
             this.tire.display();
         this.scene.popMatrix();
 
@@ -196,23 +219,26 @@ class MyJeep extends CGFobject {
             this.cube.display();
         this.scene.popMatrix();
 
-        //Template DEBUG
-        this.scene.pushMatrix();
+
         this.scene.popMatrix();
+    }
 
+    setSpeed(speed) {
+        this.velocity = speed;
+    }
 
-        //Template DEBUG
-        this.scene.pushMatrix();
-        this.scene.popMatrix();
+    setRotation(angularVelocity) {
+        this.angVelocity = angularVelocity;
+        if (this.velocity > 0) this.wheelRotation = angularVelocity / 3;
+        else this.wheelRotation = -angularVelocity / 3;
+    }
 
-
-        //Template DEBUG
-        this.scene.pushMatrix();
-        this.scene.popMatrix();
-
-
-        //Template DEBUG
-        this.scene.pushMatrix();
-        this.scene.popMatrix();
+    update(currTime) {
+        var deltaTime = currTime - this.lastTime;
+        this.lastTime = currTime;
+        this.angle += this.angVelocity * deltaTime * 0.001;
+        this.xCoord += this.velocity * Math.sin(this.angle) * 0.001; // = to / 1000
+        this.zCoord += this.velocity * Math.cos(this.angle) * 0.001;
+        this.wheelAngle += 2 * this.velocity * 0.001;
     }
 };

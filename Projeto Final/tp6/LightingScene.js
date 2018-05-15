@@ -132,7 +132,7 @@ class LightingScene extends CGFscene
 
 		this.lightValley=true; 
 		this.lightNW=false;
-		this.lightNE=false;
+		this.lightNE=true;
 		this.speed = 3;
 	};
 
@@ -198,7 +198,8 @@ class LightingScene extends CGFscene
 
     update(currTime) //recebe tempo do sistema em milisegundos 
     {
-
+		this.checkKeys();
+		this.jeep.update(currTime);
     }
 
 	display() 
@@ -243,6 +244,73 @@ class LightingScene extends CGFscene
 		
 		// ---- END Scene drawing section
 	};
+
+	checkKeys()
+	{
+		var text="Keys pressed: ";
+		var keysPressed=false;
+		var wPressed = false;
+		var sPressed = false;
+		var aPressed = false;
+		var dPressed = false;
+		if (this.gui.isKeyPressed("KeyW"))
+		{
+			text+=" W ";
+			keysPressed=true;
+			wPressed = true;
+		}
+		if (this.gui.isKeyPressed("KeyS"))
+		{
+			text+=" S ";
+			keysPressed=true;
+			sPressed = true;
+		}
+		if (this.gui.isKeyPressed("KeyA"))
+		{
+			text+=" A ";
+			keysPressed=true;
+			aPressed = true;
+		}
+		if (this.gui.isKeyPressed("KeyD"))
+		{
+			text+=" D ";
+			keysPressed=true;
+			dPressed = true;
+		}
+		if (keysPressed)
+			console.log(text);
+
+			if (wPressed && !sPressed) {		//forward
+				this.jeep.setSpeed(100);
+
+				if(aPressed && !dPressed) {
+					this.jeep.setRotation(0.5);
+				}
+				else if (dPressed && !aPressed) {
+					this.jeep.setRotation(-0.5);
+				}
+				else {
+					this.jeep.setRotation(0);
+				}
+			}
+			else if (sPressed && !wPressed) {	//backwards
+				this.jeep.setSpeed(-100);
+				
+				if(aPressed && !dPressed) {
+					this.jeep.setRotation(-0.5);
+				}
+				else if (dPressed && !aPressed) {
+					this.jeep.setRotation(0.5);
+				}
+				else {
+					this.jeep.setRotation(0);
+				}
+			}
+			else {								//stopped
+				this.jeep.setSpeed(0);
+				this.jeep.setRotation(0);
+			}
+	}
 
 	doSomething()
 	{ 
