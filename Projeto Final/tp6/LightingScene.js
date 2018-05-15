@@ -36,6 +36,9 @@ class LightingScene extends CGFscene
 
         this.axis = new CGFaxis(this);
 
+		//Draw Axis
+		this.drawAxis = true;
+
         // Materials
         this.materialDefault = new CGFappearance(this);
 
@@ -81,7 +84,7 @@ class LightingScene extends CGFscene
         this.tireSideAppearance.setTextureWrap("REPEAT", "REPEAT");
 
         //Terrain
-        ///*
+        /*
         this.altimetry = [
             [2.0, 3.0, 2.0, 4.0, 2.5, 2.4, 2.3, 1.3, 0.0],
             [2.0, 3.0, 2.0, 4.0, 7.5, 6.4, 4.3, 1.3, 0.0],
@@ -93,27 +96,44 @@ class LightingScene extends CGFscene
             [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
             [2.0, 3.0, 2.0, 1.0, 2.5, 2.4, 2.3, 1.3, 0.0]
         ];
-        //*/
+        */
         
-		/*
+		///*
         this.altimetry = [
-            [0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0],
-            [0.0, 0.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0],
-            [0.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-            [1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-            [1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-            [1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
             [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-            [0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+            [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+            [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+            [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+            [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+            [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+            [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+            [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
             [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
         ];
-        */
-
+        //*/
+		/*
+        this.altimetry = [
+            [2.0, 1.5, 1.0, 1.0, 1.0, 1.2, 1.5, 1.5, 2.0],
+            [1.5, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.5, 1.5],
+            [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0],
+            [1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0],
+            [1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0],
+            [1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0],
+            [1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0],
+            [1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0],
+            [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+        ];
+		*/
         // Scene elements
         this.jeep = new MyJeep(this, this.metalAppearance, this.glassAppearance, this.rubberAppearance, this.tireSideAppearance);
         this.terrain = new MyTerrain(this, 8, this.altimetry, this.grassAppearance, 20, 20);
 
         this.setUpdatePeriod(20);
+
+		this.lightValley=true; 
+		this.lightNW=false;
+		this.lightNE=false;
+		this.speed = 3;
 	};
 
 	initCameras() 
@@ -125,11 +145,11 @@ class LightingScene extends CGFscene
 	{
 		//Turn this line on only when you need to verify meshes in dark areas.
 		//this.setGlobalAmbientLight(0.3,0.3,0.3, 1.0);
-		//this.setGlobalAmbientLight(0.0,0.0,0.0, 1.0);
-		this.setGlobalAmbientLight(1.0,1.0,1.0, 1.0);
+		this.setGlobalAmbientLight(0.0,0.0,0.0, 1.0);
+		//this.setGlobalAmbientLight(1.0,1.0,1.0, 1.0);
 		
 		// Positions for lights
-		this.lights[0].setPosition(1, 15, 1, 1);
+		this.lights[0].setPosition(0, 10, 10, 1);
 		this.lights[0].setVisible(true); // show marker on light position (different from enabled)
 		
 		this.lights[0].setAmbient(0, 0, 0, 1);
@@ -140,14 +160,38 @@ class LightingScene extends CGFscene
 		this.lights[0].setConstantAttenuation(0);
 		this.lights[0].enable();
 
-		this.option1=true; 
-		this.option2=false;
-		this.speed=3;
+		this.lights[1].setPosition(-15, 15, -15, 1);
+		this.lights[1].setVisible(true); // show marker on light position (different from enabled)
+		
+		this.lights[1].setAmbient(0, 0, 0, 1);
+		this.lights[1].setDiffuse(1.0, 1.0, 1.0, 1.0);
+		this.lights[1].setSpecular(1.0, 1.0, 1.0, 1.0);
+		this.lights[1].setQuadraticAttenuation(0);
+		this.lights[1].setLinearAttenuation(0.05);
+		this.lights[1].setConstantAttenuation(0);
+		this.lights[1].enable();
 
+		this.lights[2].setPosition(15, 15, -15, 1);
+		this.lights[2].setVisible(true); // show marker on light position (different from enabled)
+		
+		this.lights[2].setAmbient(0, 0, 0, 1);
+		this.lights[2].setDiffuse(1.0, 1.0, 1.0, 1.0);
+		this.lights[2].setSpecular(1.0, 1.0, 1.0, 1.0);
+		this.lights[2].setQuadraticAttenuation(0);
+		this.lights[2].setLinearAttenuation(0.05);
+		this.lights[2].setConstantAttenuation(0);
+		this.lights[2].enable();
 	};
 
 	updateLights() 
 	{
+		if (this.lightValley) this.lights[0].enable();
+		else this.lights[0].disable();
+		if (this.lightNW) this.lights[1].enable();
+		else this.lights[1].disable();
+		if (this.lightNE) this.lights[2].enable();
+		else this.lights[2].disable();
+		
 		for (var i = 0; i < this.lights.length; i++)
 			this.lights[i].update();
 	}
@@ -176,7 +220,7 @@ class LightingScene extends CGFscene
 		this.updateLights();
 
 		// Draw axis
-		this.axis.display();
+		if (this.drawAxis) this.axis.display();
 
 		this.materialDefault.apply();
 
@@ -199,6 +243,17 @@ class LightingScene extends CGFscene
 		
 		// ---- END Scene drawing section
 	};
-doSomething()
-{ console.log("Doing something..."); };
+
+	doSomething()
+	{ 
+		console.log("Doing something...");
+	};
+
+	toggleAxis() 
+	{
+		console.log("Toggling Axis...");
+		this.drawAxis = !this.drawAxis;
+	}
+
 };
+
