@@ -8,13 +8,14 @@ var SLICES = 32;
 var STACKS = 4;
 
 class MyJeep extends CGFobject {
-    constructor(scene, textureMetal, textureGlass, textureWheelsTube, textureWheelsCircle) {
+    constructor(scene, textureMetal, textureGlass, textureWheelsTube, textureWheelsCircle, textureBlinker) {
         super(scene);
 
         this.texMetal = textureMetal;
         this.texGlass = textureGlass;
         this.texWheelsTube = textureWheelsTube;
         this.texWheelsCirc = textureWheelsCircle;
+        this.texBlinker = textureBlinker;
 
         this.lamp = new MyHalfSphere(scene, SLICES, STACKS);
         this.tire = new MyTire(scene, SLICES, STACKS, this.texWheelsTube, this.texWheelsCirc);
@@ -102,6 +103,20 @@ class MyJeep extends CGFobject {
             this.scene.scale(2, 0.71, 1);
             this.quad.display();
         this.scene.popMatrix();
+        //Right Headlight
+        this.scene.pushMatrix();
+            this.scene.translate(-0.6, 0.9, 1.7);
+            //this.scene.rotate(Math.PI, 0, 1, 0);
+            this.scene.scale(0.3, 0.3, 0.2);
+            this.lamp.display();
+        this.scene.popMatrix();
+        //Left Headlight
+        this.scene.pushMatrix();
+            this.scene.translate(0.6, 0.9, 1.7);
+            //this.scene.rotate(Math.PI, 0, 1, 0);
+            this.scene.scale(0.3, 0.3, 0.2);
+            this.lamp.display();
+        this.scene.popMatrix();
 
 
         this.texMetal.apply();
@@ -177,23 +192,6 @@ class MyJeep extends CGFobject {
             this.scene.scale(2, 4.05, 1);
             this.quad.display();
         this.scene.popMatrix();
-
-
-        //Right Headlight
-        this.scene.pushMatrix();
-            this.scene.translate(-0.6, 0.9, 1.7);
-            //this.scene.rotate(Math.PI, 0, 1, 0);
-            this.scene.scale(0.3, 0.3, 0.2);
-            this.lamp.display();
-        this.scene.popMatrix();
-        //Left Headlight
-        this.scene.pushMatrix();
-            this.scene.translate(0.6, 0.9, 1.7);
-            //this.scene.rotate(Math.PI, 0, 1, 0);
-            this.scene.scale(0.3, 0.3, 0.2);
-            this.lamp.display();
-        this.scene.popMatrix();
-
         //Right Mirror
         this.scene.pushMatrix();
             this.scene.translate(-1.1, 1.2, 0.3);
@@ -206,6 +204,8 @@ class MyJeep extends CGFobject {
             this.scene.scale(0.2, 0.15, 0.1);
             this.cube.display();
         this.scene.popMatrix();
+
+        this.texBlinker.apply();
         //Right Blinker
         this.scene.pushMatrix();
             this.scene.translate(-0.9, 1.025, 1.65);
