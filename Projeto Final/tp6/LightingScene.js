@@ -83,6 +83,34 @@ class LightingScene extends CGFscene
         this.tireSideAppearance.loadTexture("../resources/images/pneu2.jpg");
         this.tireSideAppearance.setTextureWrap("REPEAT", "REPEAT");
 
+        this.carpetCityAppearance = new CGFappearance(this);
+        this.carpetCityAppearance.setAmbient(0.8, 0.8, 0.8, 1);
+        this.carpetCityAppearance.setDiffuse(0.8, 0.8, 0.8, 1);
+        this.carpetCityAppearance.setSpecular(0.1, 0.1, 0.1, 1);
+        this.carpetCityAppearance.setShininess(20);
+        this.carpetCityAppearance.loadTexture("../resources/images/childCarpet.jpg");
+        this.carpetCityAppearance.setTextureWrap("REPEAT", "REPEAT");
+
+        this.redAppearance = new CGFappearance(this);        
+        this.redAppearance.setAmbient(0.8, 0.8, 0.8, 1);
+        this.redAppearance.setDiffuse(0.8, 0.8, 0.8, 1);
+        this.redAppearance.setSpecular(0.1, 0.1, 0.1, 1);
+        this.redAppearance.setShininess(20);
+        this.redAppearance.loadTexture("../resources/images/red.png");
+        this.redAppearance.setTextureWrap("REPEAT", "REPEAT");
+
+        this.camoAppearance = new CGFappearance(this);        
+        this.camoAppearance.setAmbient(0.8, 0.8, 0.8, 1);
+        this.camoAppearance.setDiffuse(0.8, 0.8, 0.8, 1);
+        this.camoAppearance.setSpecular(0.1, 0.1, 0.1, 1);
+        this.camoAppearance.setShininess(20);
+        this.camoAppearance.loadTexture("../resources/images/CamoTexture.png");
+        this.camoAppearance.setTextureWrap("REPEAT", "REPEAT");
+
+        this.currAppearance = "Red Jeep";
+        this.vehicleAppearances = ["Red Jeep", "Camoflage", "Metal"];
+
+
         //Terrain
         /*
         this.altimetry = [
@@ -98,7 +126,7 @@ class LightingScene extends CGFscene
         ];
         */
         
-		///*
+		/*
         this.altimetry = [
             [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
             [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
@@ -110,28 +138,59 @@ class LightingScene extends CGFscene
             [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
             [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
         ];
-        //*/
+        */
 		/*
         this.altimetry = [
-            [2.0, 1.5, 1.0, 1.0, 1.0, 1.2, 1.5, 1.5, 2.0],
-            [1.5, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.5, 1.5],
-            [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0],
-            [1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0],
-            [1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0],
-            [1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0],
-            [1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0],
-            [1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0],
-            [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+            [2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0],
+            [0.5, 0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.5],
+            [0.5, 0.0, 0.0, 0.2, 0.5, 0.0, 0.0, 0.0, 0.5],
+            [0.5, 0.0, 0.0, 0.0, 0.2, 0.0, 0.0, 0.0, 0.5],
+            [0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+            [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -0.3],
+            [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -0.3, 0.0],
+            [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -0.3, 0.0, 0.0],
+            [0.0, 0.0, 0.5, 0.5, 0.0, 0.0, -0.3, 0.0, 0.0]
         ];
-		*/
+        */
+		///*
+        this.altimetry = [
+			[2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 1.6, 1.3, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.5, 2.0, 2.0],
+			[1.9, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.8, 0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.8],
+			[1.8, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.8, 1.0, 1.6],
+			[1.7, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.5, 0.8, 1.5],
+			[1.6, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.5, 0.5, 0.5, 1.4],
+			[1.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.3],
+			[1.5, 0.5, 0.5, 0.5, 0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.2],
+			[1.5, 0.8, 0.8, 0.6, 0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.1],
+			[1.5, 1.0, 0.8, 0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0],
+			[1.5, 1.0, 0.8, 0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0],
+			[1.4, 1.0, 0.8, 0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0],
+			[1.3, 1.0, 0.8, 0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0],
+			[1.2, 0.8, 0.5, 0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0],
+			[1.1, 0.5, 0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0],
+			[1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.5],
+			[1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+			[1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -0.8],
+			[1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -0.8, 0.0],
+			[1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -0.8, 0.0, 0.5],
+			[0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -0.0, 0.0, 0.0, 0.5],
+			[0.1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -0.0, 0.0, 0.0, 0.0, 0.5],
+			[0.1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -0.8, -0.0, 0.0, 0.0, 0.0, 0.5],
+			[0.1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -0.0, -0.8, 0.0, 0.0, 0.0, 0.0, 0.5],
+			[0.1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -0.0, -0.0, 0.0, 0.0, 0.0, 0.0, 0.5],
+			[0.1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -0.0, -0.0, 0.0, 0.0, 0.0, 0.0, 0.5],
+			[0.1, 0.0, 0.0, 0.0, 0.0, 0.5, 0.5, 0.5, 0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -0.8, -0.8, 0.0, 0.0, 0.0, 0.0, 0.5],
+			[0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.5, 1.0, 1.0, 1.0, 1.0, 1.0, 0.5, 0.1, 0.1, 0.1, 0.1, 0.5, 0.5, 0.0, -0.8, -0.8, 0.0, 0.5, 0.5, 0.5, 1.0],
+        ];
+		//*/
         // Scene elements
-        this.jeep = new MyJeep(this, this.metalAppearance, this.glassAppearance, this.rubberAppearance, this.tireSideAppearance);
-        this.terrain = new MyTerrain(this, 8, this.altimetry, this.grassAppearance, 20, 20);
-		this.crane = new MyCrane(this,0,0);
+        this.jeep = new MyJeep(this, this.redAppearance, this.glassAppearance, this.rubberAppearance, this.tireSideAppearance);
+        this.terrain = new MyTerrain(this, this.altimetry.length - 1, this.altimetry, this.carpetCityAppearance);
+
         this.setUpdatePeriod(20);
 
 		this.lightValley=true; 
-		this.lightNW=false;
+		this.lightNW=true;
 		this.lightNE=true;
 		this.speed = 3;
 	};
@@ -200,6 +259,7 @@ class LightingScene extends CGFscene
     {
 		this.checkKeys();
 		this.jeep.update(currTime);
+		this.checkTexture();
     }
 
 	display() 
@@ -231,7 +291,7 @@ class LightingScene extends CGFscene
 
 		//Jeep
 		this.pushMatrix();
-			this.translate(3, 0, 3);
+			this.translate(0, 0, 0);
 			this.jeep.display();
 		this.popMatrix();
 
@@ -288,10 +348,10 @@ class LightingScene extends CGFscene
 				this.jeep.setSpeed(100);
 
 				if(aPressed && !dPressed) {
-					this.jeep.setRotation(0.5);
+					this.jeep.setRotation(1.0);
 				}
 				else if (dPressed && !aPressed) {
-					this.jeep.setRotation(-0.5);
+					this.jeep.setRotation(-1.0);
 				}
 				else {
 					this.jeep.setRotation(0);
@@ -301,10 +361,10 @@ class LightingScene extends CGFscene
 				this.jeep.setSpeed(-100);
 				
 				if(aPressed && !dPressed) {
-					this.jeep.setRotation(-0.5);
+					this.jeep.setRotation(-1.0);
 				}
 				else if (dPressed && !aPressed) {
-					this.jeep.setRotation(0.5);
+					this.jeep.setRotation(1.0);
 				}
 				else {
 					this.jeep.setRotation(0);
@@ -314,6 +374,24 @@ class LightingScene extends CGFscene
 				this.jeep.setSpeed(0);
 				this.jeep.setRotation(0);
 			}
+	}
+
+	checkTexture() {
+		this.lastAppearance
+		if (this.lastAppearance != this.currAppearance) {
+			switch (this.currAppearance) {
+				case this.vehicleAppearances[0]:
+					this.jeep.setTextureMetal(this.redAppearance);
+					break;
+				case this.vehicleAppearances[1]:
+					this.jeep.setTextureMetal(this.camoAppearance);
+					break;
+				case this.vehicleAppearances[2]:
+					this.jeep.setTextureMetal(this.metalAppearance);
+					break;
+			}
+			this.lastAppearance = this.currAppearance;
+		}
 	}
 
 	doSomething()

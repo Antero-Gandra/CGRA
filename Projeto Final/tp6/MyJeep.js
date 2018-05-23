@@ -241,4 +241,8 @@ class MyJeep extends CGFobject {
         this.zCoord += this.velocity * Math.cos(this.angle) * 0.001;
         this.wheelAngle += 2 * this.velocity * 0.001;
     }
+
+    setTextureMetal(appearance) {
+        this.texMetal = appearance;
+    }
 };
