@@ -186,7 +186,7 @@ class LightingScene extends CGFscene
         // Scene elements
         this.jeep = new MyJeep(this, this.redAppearance, this.glassAppearance, this.rubberAppearance, this.tireSideAppearance);
         this.terrain = new MyTerrain(this, this.altimetry.length - 1, this.altimetry, this.carpetCityAppearance);
-
+		this.crane = new MyCrane(this,0,0);
         this.setUpdatePeriod(20);
 
 		this.lightValley=true; 

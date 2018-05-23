@@ -21,7 +21,7 @@ class MyCrane extends CGFobject {
     display() {
       
         this.scene.pushMatrix();
-        this.scene.rotate(this.craneOrientation,0,1,0);
+        //this.scene.rotate(this.craneOrientation,0,1,0);
 
 
       //base da crane
@@ -83,7 +83,7 @@ class MyCrane extends CGFobject {
         // this.scene.popMatrix();
 
 
-     this.scene.popMatrix();
+    // this.scene.popMatrix();
         
     };
 
