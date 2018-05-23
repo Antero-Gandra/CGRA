@@ -51,7 +51,8 @@ class MyInterface extends CGFinterface {
 		// this.speed=3;
 		// min and max values can be specified as parameters
 
-		this.gui.add(this.scene, 'speed', -5, 5);
+		this.gui.add(this.scene, 'acceleration', 0, 3);
+		this.gui.add(this.scene, 'maneuverability', 0, 3);
 
 		this.gui.add(this.scene, 'currAppearance', this.scene.vehicleAppearances);
 

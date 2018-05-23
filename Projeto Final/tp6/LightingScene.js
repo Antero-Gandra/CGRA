@@ -200,7 +200,8 @@ class LightingScene extends CGFscene
 		this.lightValley=true; 
 		this.lightNW=true;
 		this.lightNE=true;
-		this.speed = 3;
+		this.acceleration = 1.0;
+		this.maneuverability = 1.0;
 	};
 
 	initCameras() 
@@ -353,34 +354,23 @@ class LightingScene extends CGFscene
 			console.log(text);
 
 			if (wPressed && !sPressed) {		//forward
-				this.jeep.setSpeed(100);
-
-				if(aPressed && !dPressed) {
-					this.jeep.setRotation(1.0);
-				}
-				else if (dPressed && !aPressed) {
-					this.jeep.setRotation(-1.0);
-				}
-				else {
-					this.jeep.setRotation(0);
-				}
+				this.jeep.setAcceleration(10 * this.acceleration);
 			}
 			else if (sPressed && !wPressed) {	//backwards
-				this.jeep.setSpeed(-100);
-				
-				if(aPressed && !dPressed) {
-					this.jeep.setRotation(-1.0);
-				}
-				else if (dPressed && !aPressed) {
-					this.jeep.setRotation(1.0);
-				}
-				else {
-					this.jeep.setRotation(0);
-				}
+				this.jeep.setAcceleration(-10 * this.acceleration);
 			}
 			else {								//stopped
-				this.jeep.setSpeed(0);
-				this.jeep.setRotation(0);
+				this.jeep.setAcceleration(0);
+			}
+
+			if(aPressed && !dPressed) {
+				this.jeep.setRotationTarget(0.3 * this.maneuverability);
+			}
+			else if (dPressed && !aPressed) {
+				this.jeep.setRotationTarget(-0.3 * this.maneuverability);
+			}
+			else {
+				this.jeep.setRotationTarget(0);
 			}
 	}
 

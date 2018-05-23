@@ -32,7 +32,10 @@ class MyJeep extends CGFobject {
         this.angle = 0;
 
         this.velocity = 0;
+        this.rotationTarget = 0;
         this.angVelocity = 0;
+
+        this.acceleration = 0;
 
         this.wheelAngle = 0;    //Rotation in the z axis
         this.wheelRotation = 0; //Totation in the y axis
@@ -223,23 +226,35 @@ class MyJeep extends CGFobject {
         this.scene.popMatrix();
     }
 
-    setSpeed(speed) {
-        this.velocity = speed;
+    setAcceleration(value) {
+        this.acceleration = value;
     }
 
-    setRotation(angularVelocity) {
-        this.angVelocity = angularVelocity;
-        if (this.velocity > 0) this.wheelRotation = angularVelocity / 3;
-        else this.wheelRotation = -angularVelocity / 3;
+    setRotationTarget(target) {
+        this.rotationTarget = target;
+    }
+
+    Lerp(value1, value2, factor) {
+        return value1 + ((value2-value1)*factor);
     }
 
     update(currTime) {
         var deltaTime = currTime - this.lastTime;
         this.lastTime = currTime;
-        this.angle += this.angVelocity * deltaTime * 0.001;
-        this.xCoord += this.velocity * Math.sin(this.angle) * 0.001; // = to / 1000
-        this.zCoord += this.velocity * Math.cos(this.angle) * 0.001;
-        this.wheelAngle += 2 * this.velocity * 0.001;
+        deltaTime *= 0.001; // same as /= 1000
+
+        this.velocity += this.acceleration * deltaTime;
+
+        this.wheelRotation = this.Lerp(this.wheelRotation, this.rotationTarget, 1.3*deltaTime);
+
+        this.angVelocity = this.wheelRotation * this.velocity;
+
+        this.angle += this.angVelocity * deltaTime;
+
+        this.xCoord += this.velocity * Math.sin(this.angle) * deltaTime; // = to / 1000
+        this.zCoord += this.velocity * Math.cos(this.angle) * deltaTime;
+
+        this.wheelAngle += 2 * this.velocity * deltaTime;
     }
 
     setTextureMetal(appearance) {
