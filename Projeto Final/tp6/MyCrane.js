@@ -24,7 +24,7 @@ class MyCrane extends CGFobject {
     display() {
       
         this.scene.pushMatrix();
-        //this.scene.rotate(this.craneOrientation,0,1,0);
+        this.scene.translate(-20,0,20);
 
 
       //base da crane
@@ -94,6 +94,21 @@ class MyCrane extends CGFobject {
         }
     }
     
+    rotate(){
+        if(this.craneOrientation == 0.5){
+
+
+        } else if(this.craneOrientation == 0) {
+
+
+
+
+        }
+
+
+
+    }
+
 
 
 
