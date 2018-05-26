@@ -113,8 +113,8 @@ class LightingScene extends CGFscene
         this.blinkerAppearance.setSpecular(0.1, 0.1, 0.1, 1);
         this.blinkerAppearance.setShininess(20);
         this.blinkerAppearance.loadTexture("../resources/images/blinker.jpg");
-        this.blinkerAppearance.setTextureWrap("REPEAT", "REPEAT");
-
+		this.blinkerAppearance.setTextureWrap("REPEAT", "REPEAT");
+		
         this.currAppearance = "Red Jeep";
         this.vehicleAppearances = ["Red Jeep", "Camoflage", "Metal"];
 
@@ -194,7 +194,7 @@ class LightingScene extends CGFscene
         // Scene elements
         this.jeep = new MyJeep(this, this.redAppearance, this.glassAppearance, this.rubberAppearance, this.tireSideAppearance, this.blinkerAppearance);
         this.terrain = new MyTerrain(this, this.altimetry.length - 1, this.altimetry, this.carpetCityAppearance);
-		this.crane = new MyCrane(this,0,0);
+		this.crane = new MyCrane(this,-20,0,20,0);
         this.setUpdatePeriod(20);
 
 		this.lightValley=true; 
