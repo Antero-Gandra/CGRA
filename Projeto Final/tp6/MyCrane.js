@@ -52,7 +52,7 @@ class MyCrane extends CGFobject {
 
         this.baseAtD = true;
         this.hasCar = false;
-        this.carDrop = 0;
+        this.carDrop = 0.01;
         this.carDropped = 3;
 
         this.carX = 0;
@@ -123,11 +123,11 @@ class MyCrane extends CGFobject {
             this.baseAtR = false;
         }
         else if (this.hasCar) {
-            this.carDrop = moveTo(this.carDrop, this.carDropped, deltaTime);
+            this.carDrop = this.moveTo(this.carDrop, this.carDropped, deltaTime, 3);
             if (this.carDrop == this.carDropped) {
                 this.hasCar = false;
-                this.scene.jeep.xCoord = this.carX - 10;
-                this.scene.jeep.zCoord = this.carZ + 2;
+                this.scene.jeep.xCoord = this.carX - 13.3;
+                this.scene.jeep.zCoord = this.carZ + 4;
                 this.scene.jeep.angle = this.carAngle - (5*Math.PI/6 - Math.PI/3);
             }
         }
