@@ -5,9 +5,14 @@
 
 var ANIM_DURATION = 5;
 
+var ARM_LENGHT = 10;
+var FOREARM_LENGHT = 5;
+var STRING_LENGHT = 3;
+var ARM_ANGLE = Math.PI / 6;
+
 class MyCrane extends CGFobject {
 
-    constructor(scene, x, y, z, rotation) {
+    constructor(scene) {
         super(scene);
 
         //Textura
@@ -21,27 +26,21 @@ class MyCrane extends CGFobject {
 
         //Constituido por 6 cilindros
         this.base = new MyCylinder(scene, 32, 4);
-        this.arm = new MyCylinder(scene, 32, 4);
+        this.arm = new MyCylinder(scene, 8, 4);
         this.articulation = new MyCylinder(scene, 32, 4);
-        this.forearm = new MyCylinder(scene, 32, 4);
-        this.string = new MyCylinder(scene, 32, 4);
+        this.forearm = new MyCylinder(scene, 8, 4);
+        this.string = new MyCylinder(scene, 4, 4);
         this.hand = new MyCylinder(scene, 32, 4);
 
-        //Posição Inicial da grua
-        this.x = x;
-        this.y = y;
-        this.z = z;
-        this.rotation = rotation;
-
         //Base
-        this.baseAngle = 0;
+        this.baseAngle = Math.PI / 4;
         this.minBaseAngle = 0;
-        this.maxBaseAngle = 90;
+        this.maxBaseAngle = 180;
 
         //ARTICULATION
-        this.articulationAngle = 0;
+        this.articulationAngle = Math.PI / 4;
         this.minArticulationAngle = 0;
-        this.maxArticulationAngle = 45;
+        this.maxArticulationAngle = 90;
 
         //Maquina de Estados
         this.stage = 0;
@@ -64,89 +63,69 @@ class MyCrane extends CGFobject {
     }
 
     display() {
-
-        this.scene.pushMatrix();
-        this.scene.translate(this.x, this.y, this.z);
-
-
-        //base da crane
-
-
-        this.scene.pushMatrix();
-        this.scene.scale(2.5, 1.5, 2.5)
-        this.scene.translate(0, 0.5, 0);
-        this.scene.rotate(Math.PI / 2, 1, 0, 0)
         this.craneTexture.apply();
-        this.base.display();
-        this.scene.popMatrix();
 
-        //testar se base faz rodar corretamente: roda!
+        //base of crane
         this.scene.pushMatrix();
-        this.scene.rotate(this.articulationRotation, 0, 1, 0);
-
+            this.scene.scale(2, 1, 2);
+            this.scene.translate(0, 0.5, 0);
+            this.scene.rotate(Math.PI/2, 1, 0, 0);
+            this.base.display();
+        this.scene.popMatrix();
+        
+        
         //arm
+        this.scene.rotate(this.baseAngle, 0, 1, 0);        
+        this.scene.rotate(ARM_ANGLE, 0, 0, 1);
+
         this.scene.pushMatrix();
-        this.scene.rotate(Math.PI / 8, 0, 0, 1)
-        this.scene.scale(1, 11, 1);
-        this.scene.translate(0, 0.55, 0);
-        this.scene.rotate(Math.PI / 2, 1, 0, 0)
-        this.arm.display();
+            this.scene.scale(0.8, ARM_LENGHT, 0.8);
+            this.scene.translate(0, 0.5, 0);
+            this.scene.rotate(Math.PI / 2, 1, 0, 0);
+            this.arm.display();
         this.scene.popMatrix();
 
-
-        //this.scene.pushMatrix();
-        //a articulação não roda corretamente
-        //this.scene.rotate(Math.PI / 2, 0, 1, 0);
-
+        
         //articulation
         this.scene.pushMatrix();
-        this.scene.translate(-4.5, 10.9, 0);
-        this.scene.scale(1, 1, 1.5);
-        this.articulation.display();
-        this.scene.popMatrix();
+            this.scene.translate(0, ARM_LENGHT, 0);
+            this.scene.rotate(this.articulationAngle, 0, 0, 1);
+            this.articulation.display();
 
-        //forearm
-        this.scene.pushMatrix();
-        this.scene.translate(-6, 7.7, 0);
-        this.scene.rotate(-Math.PI / 8, 0, 0, 1)
-        this.scene.scale(1, 7, 1);
-        this.scene.rotate(Math.PI / 2, 1, 0, 0)
-        this.arm.display();
-        this.scene.popMatrix();
-        this.scene.popMatrix();
 
-        //string
-        this.scene.pushMatrix();
-        this.scene.scale(0.2, 3, 0.2)
-        this.scene.translate(36, 1, 0);
-        this.scene.rotate(Math.PI / 2, 1, 0, 0)
-        this.string.display();
-        this.scene.popMatrix();
+            //forearm & magnet
+            this.scene.pushMatrix();
+                        
+                //string
+                this.scene.pushMatrix();
+                    this.scene.translate(0, FOREARM_LENGHT, 0);
+                    this.scene.rotate(-ARM_ANGLE - this.articulationAngle, 0, 0, 1);
 
-        //hand
-        this.scene.pushMatrix();
-        this.scene.scale(2.5, 1.5, 2.5)
-        this.scene.translate(2.9, 0.5, 0);
-        this.scene.rotate(Math.PI / 2, 1, 0, 0)
-        this.hand.display();
-        this.scene.popMatrix();
+                    //magnet
+                    this.scene.pushMatrix();
+                        this.scene.translate(0, -STRING_LENGHT, 0);
+                        this.scene.scale(2.5, 1, 2.5);
+                        this.scene.translate(0, -0.5, 0);
+                        this.scene.rotate(Math.PI / 2, 1, 0, 0);
+                        this.hand.display();
+                    this.scene.popMatrix();
 
-        //this.scene.popMatrix();
-        //this.scene.popMatrix();
+                    this.scene.scale(0.2, STRING_LENGHT, 0.2);
+                    this.scene.translate(0, -0.5, 0);
+                    this.scene.rotate(Math.PI / 2, 1, 0, 0);
+                    this.string.display();
+                this.scene.popMatrix();
+                
+                //forearm
+                this.scene.scale(0.8, FOREARM_LENGHT, 0.8);
+                this.scene.translate(0, 0.5, 0);
+                this.scene.rotate(Math.PI / 2, 1, 0, 0);
+                this.arm.display();
+            this.scene.popMatrix();
+
+
         this.scene.popMatrix();
     };
-
-    getX() {
-        return this.x;
-    }
-
-    getZ() {
-        return this.z;
-    }
-
-    getRotation() {
-        return this.rotation;
-    }
 
     //restos da maquina de estados
     // getCurrentState() {

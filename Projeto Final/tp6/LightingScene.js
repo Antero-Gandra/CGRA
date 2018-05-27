@@ -194,7 +194,7 @@ class LightingScene extends CGFscene
         // Scene elements
         this.jeep = new MyJeep(this, this.redAppearance, this.glassAppearance, this.rubberAppearance, this.tireSideAppearance, this.blinkerAppearance);
         this.terrain = new MyTerrain(this, this.altimetry.length - 1, this.altimetry, this.carpetCityAppearance);
-		this.crane = new MyCrane(this,-20,0,20,0);
+		this.crane = new MyCrane(this);
         this.setUpdatePeriod(20);
 
 		this.lightValley=true; 
@@ -313,7 +313,8 @@ class LightingScene extends CGFscene
 		
 		//Crane
 		this.pushMatrix();
-		this.crane.display();
+		this.translate(0, 0, 0);
+			this.crane.display();
 		this.popMatrix();
 		// ---- END Scene drawing section
 	};
