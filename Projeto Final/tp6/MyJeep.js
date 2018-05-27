@@ -238,6 +238,10 @@ class MyJeep extends CGFobject {
         return value1 + ((value2-value1)*factor);
     }
 
+    setSpeed(value) {
+        this.velocity = 0;
+    }
+
     update(currTime) {
         var deltaTime = currTime - this.lastTime;
         this.lastTime = currTime;

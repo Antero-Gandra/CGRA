@@ -41,7 +41,7 @@ class MyInterface extends CGFinterface {
 
 		//group.add(this.scene, 'option1');
 		//group.add(this.scene, 'option2');
-		group.add(this.scene, 'lightValley');
+		group.add(this.scene, 'lightS');
 		group.add(this.scene, 'lightNW');
 		group.add(this.scene, 'lightNE');
 		//group.add(this.scene, 'luz 4');

@@ -12,6 +12,9 @@ var SLIDES_HEIGHT = 512;
 var BOARD_DRAW_WIDHT = 512;
 var BOARD_DRAW_HEIGHT = 372;
 
+var JEEP_INIC_X = 5;
+var JEEP_INIC_Z = 3;
+
 class LightingScene extends CGFscene 
 {
 	constructor()
@@ -120,47 +123,6 @@ class LightingScene extends CGFscene
 
 
         //Terrain
-        /*
-        this.altimetry = [
-            [2.0, 3.0, 2.0, 4.0, 2.5, 2.4, 2.3, 1.3, 0.0],
-            [2.0, 3.0, 2.0, 4.0, 7.5, 6.4, 4.3, 1.3, 0.0],
-            [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-            [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-            [0.0, 0.0, 2.0, 4.0, 2.5, 2.4, 0.0, 0.0, 0.0],
-            [0.0, 0.0, 2.0, 4.0, 3.5, 2.4, 0.0, 0.0, 0.0],
-            [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-            [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-            [2.0, 3.0, 2.0, 1.0, 2.5, 2.4, 2.3, 1.3, 0.0]
-        ];
-        */
-        
-		/*
-        this.altimetry = [
-            [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-            [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-            [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-            [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-            [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-            [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-            [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-            [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-            [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
-        ];
-        */
-		/*
-        this.altimetry = [
-            [2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0],
-            [0.5, 0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.5],
-            [0.5, 0.0, 0.0, 0.2, 0.5, 0.0, 0.0, 0.0, 0.5],
-            [0.5, 0.0, 0.0, 0.0, 0.2, 0.0, 0.0, 0.0, 0.5],
-            [0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-            [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -0.3],
-            [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -0.3, 0.0],
-            [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -0.3, 0.0, 0.0],
-            [0.0, 0.0, 0.5, 0.5, 0.0, 0.0, -0.3, 0.0, 0.0]
-        ];
-        */
-		///*
         this.altimetry = [
 			[2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 1.6, 1.3, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.5, 2.0, 2.0],
 			[1.9, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.8, 0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.8],
@@ -182,22 +144,24 @@ class LightingScene extends CGFscene
 			[1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -0.8, 0.0],
 			[1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -0.8, 0.0, 0.5],
 			[0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -0.0, 0.0, 0.0, 0.5],
-			[0.1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -0.0, 0.0, 0.0, 0.0, 0.5],
-			[0.1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -0.8, -0.0, 0.0, 0.0, 0.0, 0.5],
-			[0.1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -0.0, -0.8, 0.0, 0.0, 0.0, 0.0, 0.5],
-			[0.1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -0.0, -0.0, 0.0, 0.0, 0.0, 0.0, 0.5],
-			[0.1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -0.0, -0.0, 0.0, 0.0, 0.0, 0.0, 0.5],
-			[0.1, 0.0, 0.0, 0.0, 0.0, 0.5, 0.5, 0.5, 0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -0.8, -0.8, 0.0, 0.0, 0.0, 0.0, 0.5],
-			[0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.5, 1.0, 1.0, 1.0, 1.0, 1.0, 0.5, 0.1, 0.1, 0.1, 0.1, 0.5, 0.5, 0.0, -0.8, -0.8, 0.0, 0.5, 0.5, 0.5, 1.0],
+			[0.01, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -0.0, 0.0, 0.0, 0.0, 0.5],
+			[0.01, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -0.8, -0.0, 0.0, 0.0, 0.0, 0.5],
+			[0.01, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -0.0, -0.8, 0.0, 0.0, 0.0, 0.0, 0.5],
+			[0.01, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -0.0, -0.0, 0.0, 0.0, 0.0, 0.0, 0.5],
+			[0.01, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -0.0, -0.0, 0.0, 0.0, 0.0, 0.0, 0.5],
+			[0.01, 0.0, 0.0, 0.0, 0.0, 0.5, 0.5, 0.5, 0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -0.8, -0.8, 0.0, 0.0, 0.0, 0.0, 0.5],
+			[0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.5, 1.0, 1.0, 1.0, 1.0, 1.0, 0.5, 0.1, 0.1, 0.1, 0.1, 0.5, 0.5, 0.0, -0.8, -0.8, 0.0, 0.5, 0.5, 0.5, 1.0],
         ];
-		//*/
+
         // Scene elements
         this.jeep = new MyJeep(this, this.redAppearance, this.glassAppearance, this.rubberAppearance, this.tireSideAppearance, this.blinkerAppearance);
         this.terrain = new MyTerrain(this, this.altimetry.length - 1, this.altimetry, this.carpetCityAppearance);
 		this.crane = new MyCrane(this);
+		this.placeQuad = new MyQuad(this);
+
         this.setUpdatePeriod(20);
 
-		this.lightValley=true; 
+		this.lightS=true; 
 		this.lightNW=true;
 		this.lightNE=true;
 		this.acceleration = 1.0;
@@ -211,7 +175,6 @@ class LightingScene extends CGFscene
 
 	initLights() 
 	{
-		//Turn this line on only when you need to verify meshes in dark areas.
 		this.setGlobalAmbientLight(0.1,0.1,0.1, 1.0);
 		//this.setGlobalAmbientLight(0.0,0.0,0.0, 1.0);
 		//this.setGlobalAmbientLight(1.0,1.0,1.0, 1.0);
@@ -253,7 +216,7 @@ class LightingScene extends CGFscene
 
 	updateLights() 
 	{
-		if (this.lightValley) this.lights[0].enable();
+		if (this.lightS) this.lights[0].enable();
 		else this.lights[0].disable();
 		if (this.lightNW) this.lights[1].enable();
 		else this.lights[1].disable();
@@ -269,6 +232,16 @@ class LightingScene extends CGFscene
 		this.checkKeys();
 		this.jeep.update(currTime);
 		this.checkTexture();
+
+		//crane-related
+		if (this.jeep.xCoord + JEEP_INIC_X < -7.5 && this.jeep.xCoord + JEEP_INIC_X > -9.5 
+			&& this.jeep.zCoord + JEEP_INIC_Z > 17 && this.jeep.zCoord + JEEP_INIC_Z < 19) {
+			this.crane.fetch(true);
+		}
+		else {
+			this.crane.fetch(false);
+		}
+		this.crane.update(currTime);
     }
 
 	display() 
@@ -299,11 +272,12 @@ class LightingScene extends CGFscene
         // ---- BEGIN Scene drawing section
 
 		//Jeep
-		this.pushMatrix();
-			this.translate(5, 0, 3);
-			this.jeep.display();
-		this.popMatrix();
-
+		if (!this.crane.hasCar) {
+			this.pushMatrix();
+				this.translate(JEEP_INIC_X, 0, JEEP_INIC_Z);
+				this.jeep.display();
+			this.popMatrix();
+		}
 		//Terrain
 		this.pushMatrix();
 			this.rotate(-Math.PI / 2, 1, 0, 0);
@@ -313,8 +287,24 @@ class LightingScene extends CGFscene
 		
 		//Crane
 		this.pushMatrix();
-		this.translate(0, 0, 0);
+		this.translate(-16.3, 0, 13.5);
 			this.crane.display();
+		this.popMatrix();
+
+		//R Quad
+		this.pushMatrix();
+			this.translate(-8.5, 0.01, 18);
+			this.scale(4, 1, 4);
+			this.rotate(-Math.PI/2, 1, 0, 0);
+			this.placeQuad.display();
+		this.popMatrix();
+
+		//D Quad
+		this.pushMatrix();
+			this.translate(-21, 0.02, 21);
+			this.scale(8, 1, 8);
+			this.rotate(-Math.PI/2, 1, 0, 0);
+			this.placeQuad.display();
 		this.popMatrix();
 		// ---- END Scene drawing section
 	};
@@ -327,6 +317,7 @@ class LightingScene extends CGFscene
 		var sPressed = false;
 		var aPressed = false;
 		var dPressed = false;
+		var spacePressed = false;
 		if (this.gui.isKeyPressed("KeyW"))
 		{
 			text+=" W ";
@@ -351,27 +342,39 @@ class LightingScene extends CGFscene
 			keysPressed=true;
 			dPressed = true;
 		}
+		if (this.gui.isKeyPressed("Space"))
+		{
+			text+=" Space Bar ";
+			keysPressed=true;
+			spacePressed = true;
+		}
 		if (keysPressed)
 			console.log(text);
 
-			if (wPressed && !sPressed) {		//forward
-				this.jeep.setAcceleration(10 * this.acceleration);
-			}
-			else if (sPressed && !wPressed) {	//backwards
-				this.jeep.setAcceleration(-10 * this.acceleration);
-			}
-			else {								//stopped
+			if (spacePressed) {
 				this.jeep.setAcceleration(0);
-			}
-
-			if(aPressed && !dPressed) {
-				this.jeep.setRotationTarget(0.3 * this.maneuverability);
-			}
-			else if (dPressed && !aPressed) {
-				this.jeep.setRotationTarget(-0.3 * this.maneuverability);
+				this.jeep.setSpeed(0);
 			}
 			else {
-				this.jeep.setRotationTarget(0);
+				if (wPressed && !sPressed) {		//forward
+					this.jeep.setAcceleration(10 * this.acceleration);
+				}
+				else if (sPressed && !wPressed) {	//backwards
+					this.jeep.setAcceleration(-10 * this.acceleration);
+				}
+				else {								//stopped
+					this.jeep.setAcceleration(0);
+				}
+
+				if(aPressed && !dPressed) {
+					this.jeep.setRotationTarget(0.3 * this.maneuverability);
+				}
+				else if (dPressed && !aPressed) {
+					this.jeep.setRotationTarget(-0.3 * this.maneuverability);
+				}
+				else {
+					this.jeep.setRotationTarget(0);
+				}
 			}
 	}
 
