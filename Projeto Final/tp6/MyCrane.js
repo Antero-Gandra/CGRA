@@ -129,6 +129,7 @@ class MyCrane extends CGFobject {
                 this.scene.jeep.xCoord = this.carX - 13.3;
                 this.scene.jeep.zCoord = this.carZ + 4;
                 this.scene.jeep.angle = this.carAngle - (5*Math.PI/6 - Math.PI/3);
+                this.carDrop = 0;
             }
         }
     }
